@@ -27,8 +27,8 @@ public class GiocatoreController {
 	}
 	
 	@GetMapping(Paths.GET_GIOCATORE_BY_ID)
-	public ResponseEntity<Giocatore> getGiocatoreById(@PathVariable Integer id){
-		Giocatore giocatoreTrovato = giocatoreService.getGiocatoreById(id);
+	public ResponseEntity<GiocatoreDTO> getGiocatoreById(@PathVariable Integer id){
+		GiocatoreDTO giocatoreTrovato = giocatoreService.getGiocatoreById(id);
 		if(giocatoreTrovato==null) {
 			return noContentResult("Nessun giocatore trovato");
 		}
