@@ -29,8 +29,9 @@ public class GiocatoreService {
 				.toList();
 	}
 	
-	public casa.pallavolo.model.Giocatore getGiocatoreById(Integer id) {
-		return giocatoreRepository.findById(id).orElse(null);
+	public GiocatoreDTO getGiocatoreById(Integer id) {
+		Giocatore entity = giocatoreRepository.findById(id).orElse(null);
+		return giocatoreMapper.map(entity, GiocatoreDTO.class);
 	}
 	
 	public List<GiocatoreDTO> getGiocatoriByRuolo(String ruolo){
