@@ -1,0 +1,29 @@
+server:
+  port: 8081  # Puoi sostituire 8081 con la porta che preferisci
+
+# Nome dell'applicazione
+spring:
+  application:
+    name: ms-thunders
+
+# Configurazione della connessione al database PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=pallavolo
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+# Configurazione JPA e Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: validate # Può essere 'none', 'update', 'create', 'create-drop'
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Impostazioni di logging
+logging:
+  level:
+    org.springframework: INFO
+    com.example: DEBUG
