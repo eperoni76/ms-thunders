@@ -61,6 +61,9 @@ public class GiocatoreService {
 		entity.setCognome(giocatoreDaAggiornare.getCognome());
 		entity.setNumeroMaglia(giocatoreDaAggiornare.getNumeroMaglia());
 		entity.setRuolo(giocatoreDaAggiornare.getRuolo());
+		entity.setSquadra(giocatoreDaAggiornare.getSquadra());
+		entity.setDataNascita(giocatoreDaAggiornare.getDataNascita());
+		entity.setTesseraUisp(giocatoreDaAggiornare.getTesseraUisp());
 
 		Giocatore giocatoreAggiornato = giocatoreRepository.save(entity);
 		return giocatoreMapper.map(giocatoreAggiornato, GiocatoreDTO.class);

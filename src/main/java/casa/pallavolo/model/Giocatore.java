@@ -28,6 +28,6 @@ public class Giocatore {
 	private Integer numeroMaglia;
 	private String ruolo;
 	private String squadra;
-	private LocalDate dataDiNascita;
+	private LocalDate dataNascita;
 	private String tesseraUisp;
 }
