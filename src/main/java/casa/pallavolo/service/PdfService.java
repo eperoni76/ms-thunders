@@ -11,14 +11,12 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -215,8 +213,8 @@ public class PdfService {
          * TABELLA GIOCATORI
          */
         List<GiocatoreDTO> giocatori = giocatoreService.getAllGiocatori();
-        PdfPTable table = new PdfPTable(5);
-        table.setWidthPercentage(100);
+        PdfPTable tableGiocatori = new PdfPTable(5);
+        tableGiocatori.setWidthPercentage(100);
         Font titleFont = new Font(Font.HELVETICA, 11, Font.BOLD, darkGreen);
         Font nomiFont = new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK);
         Font dataFont = new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK);
@@ -225,37 +223,36 @@ public class PdfService {
         cell = new PdfPCell(new Phrase("N^", titleFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        tableGiocatori.addCell(cell);
 
         cell = new PdfPCell(new Phrase("COGNOME E NOME", titleFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        tableGiocatori.addCell(cell);
 
         cell = new PdfPCell(new Phrase("DATA DI NASCITA", titleFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        tableGiocatori.addCell(cell);
 
         cell = new PdfPCell(new Phrase("TESSERA UISP", titleFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        tableGiocatori.addCell(cell);
 
         cell = new PdfPCell(new Phrase("DOCUMENTO", titleFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        table.addCell(cell);
+        tableGiocatori.addCell(cell);
 
         float[] columnWidths = {0.8f, 4f, 3f, 3f, 2f};
-        table.setWidths(columnWidths);
-
+        tableGiocatori.setWidths(columnWidths);
 
         for (GiocatoreDTO giocatore : giocatori) {
             cell = new PdfPCell(new Phrase(giocatore.getNumeroMaglia().toString(), dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
+            tableGiocatori.addCell(cell);
 
             Phrase nome = new Phrase(giocatore.getCognome().toUpperCase() + ' ' + giocatore.getNome().toUpperCase(), nomiFont);
             if(giocatore.getRuolo().equalsIgnoreCase("libero")){
@@ -265,28 +262,82 @@ public class PdfService {
             cell = new PdfPCell(nome);
             cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
+            tableGiocatori.addCell(cell);
 
             cell = new PdfPCell(new Phrase(dataNascitaFormatter.format(giocatore.getDataNascita()), dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
+            tableGiocatori.addCell(cell);
 
             cell = new PdfPCell(new Phrase(giocatore.getTesseraUisp(), dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
+            tableGiocatori.addCell(cell);
 
             cell = new PdfPCell(new Phrase("", dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            table.addCell(cell);
+            tableGiocatori.addCell(cell);
         }
+        document.add(tableGiocatori);
+
+        /**
+         * TABELLA ALLENATORI E DIRIGENTI
+         */
+        PdfPTable tableDirigenti = new PdfPTable(4);
+        tableDirigenti.setWidthPercentage(100);
+        float[] columnWidthsDirigenti = {3f, 4.8f, 3f, 2f};
+        tableDirigenti.setWidths(columnWidthsDirigenti);
+
+        PdfPCell cell1Allenatore = new PdfPCell(new Phrase("1^ ALLENATORE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        cell1Allenatore.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell1Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(cell1Allenatore);
+
+        PdfPCell allenatoreCellValue = new PdfPCell(new Phrase("peroni emanuele".toUpperCase(), new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        allenatoreCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        allenatoreCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(allenatoreCellValue);
+
+        PdfPCell allenatoreTesseraCellValue = new PdfPCell(new Phrase("250618885", new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        allenatoreTesseraCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        allenatoreTesseraCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(allenatoreTesseraCellValue);
+        tableDirigenti.addCell("");
+
+        PdfPCell cell2Allenatore = new PdfPCell(new Phrase("2^ ALLENATORE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        cell2Allenatore.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell2Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(cell2Allenatore);
+
+        tableDirigenti.addCell("");
+        tableDirigenti.addCell("");
+        tableDirigenti.addCell("");
+
+        PdfPCell cellDirigente = new PdfPCell(new Phrase("DIRIGENTE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        cellDirigente.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cellDirigente.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(cellDirigente);
+
+        PdfPCell dirigenteCellValue = new PdfPCell(new Phrase("formiconi sergio".toUpperCase(), new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        dirigenteCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        dirigenteCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(dirigenteCellValue);
+        tableDirigenti.addCell("");
+        tableDirigenti.addCell("");
+
+        document.add(tableDirigenti);
+
+        /**
+         * TABELLA DEFIBRILLATORE
+         */
+
+
+
 
         /**
          * CHIUSURA DOCUMENTO
          */
-        document.add(table);
         document.close();
 
         return risultato.toByteArray();
