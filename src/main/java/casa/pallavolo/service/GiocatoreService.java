@@ -25,7 +25,7 @@ public class GiocatoreService {
 				.findAll()
 				.stream()
 				.map(giocatore -> giocatoreMapper.map(giocatore, GiocatoreDTO.class))
-				.sorted((giocatore1, giocatore2) -> Integer.compare(giocatore1.getNumeroMaglia(), giocatore2.getNumeroMaglia()))
+				.sorted((giocatore1, giocatore2) -> giocatore1.getCognome().compareTo(giocatore2.getCognome()))
 				.toList();
 	}
 	
@@ -39,7 +39,7 @@ public class GiocatoreService {
 				.findByRuolo(ruolo)
 				.stream()
 				.map(giocatore -> giocatoreMapper.map(giocatore, GiocatoreDTO.class))
-				.sorted((giocatore1, giocatore2) -> Integer.compare(giocatore1.getNumeroMaglia(), giocatore2.getNumeroMaglia()))
+				.sorted((giocatore1, giocatore2) -> giocatore1.getCognome().compareTo(giocatore2.getCognome()))
 				.toList();
 	}
 	

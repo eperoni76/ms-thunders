@@ -6,14 +6,27 @@ spring:
   application:
     name: ms-thunders
 
-# Configurazione della connessione al database PostgreSQL
+  # Configurazione della connessione al database PostgreSQL
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=pallavolo
     username: postgres
     password: root
     driver-class-name: org.postgresql.Driver
 
-# Configurazione JPA e Hibernate
+# Profili specifici per Docker
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://host.docker.internal:5432/postgres?currentSchema=pallavolo
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  # Configurazione JPA e Hibernate
   jpa:
     hibernate:
       ddl-auto: validate # Può essere 'none', 'update', 'create', 'create-drop'
