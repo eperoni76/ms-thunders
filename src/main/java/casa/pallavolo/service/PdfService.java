@@ -35,6 +35,7 @@ public class PdfService {
         PdfWriter.getInstance(document, risultato);
         document.open();
         Color darkGreen = new Color(0, 128, 0);
+        Color darkRed = new Color(139, 0, 0);
         DateTimeFormatter dataEOraFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         DateTimeFormatter dataNascitaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -289,12 +290,12 @@ public class PdfService {
         float[] columnWidthsDirigenti = {3f, 4.8f, 3f, 2f};
         tableDirigenti.setWidths(columnWidthsDirigenti);
 
-        PdfPCell cell1Allenatore = new PdfPCell(new Phrase("1^ ALLENATORE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        PdfPCell cell1Allenatore = new PdfPCell(new Phrase("1^ ALLENATORE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen)));
         cell1Allenatore.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell1Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cell1Allenatore);
 
-        PdfPCell allenatoreCellValue = new PdfPCell(new Phrase("peroni emanuele".toUpperCase(), new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        PdfPCell allenatoreCellValue = new PdfPCell(new Phrase("peroni emanuele".toUpperCase(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
         allenatoreCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
         allenatoreCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(allenatoreCellValue);
@@ -305,7 +306,7 @@ public class PdfService {
         tableDirigenti.addCell(allenatoreTesseraCellValue);
         tableDirigenti.addCell("");
 
-        PdfPCell cell2Allenatore = new PdfPCell(new Phrase("2^ ALLENATORE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        PdfPCell cell2Allenatore = new PdfPCell(new Phrase("2^ ALLENATORE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen)));
         cell2Allenatore.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell2Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cell2Allenatore);
@@ -314,26 +315,112 @@ public class PdfService {
         tableDirigenti.addCell("");
         tableDirigenti.addCell("");
 
-        PdfPCell cellDirigente = new PdfPCell(new Phrase("DIRIGENTE", new Font(Font.HELVETICA, 10, Font.BOLD, darkGreen)));
+        PdfPCell cellDirigente = new PdfPCell(new Phrase("DIRIGENTE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen)));
         cellDirigente.setHorizontalAlignment(Element.ALIGN_CENTER);
         cellDirigente.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cellDirigente);
 
-        PdfPCell dirigenteCellValue = new PdfPCell(new Phrase("formiconi sergio".toUpperCase(), new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        PdfPCell dirigenteCellValue = new PdfPCell(new Phrase("formiconi sergio".toUpperCase(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
         dirigenteCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
         dirigenteCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(dirigenteCellValue);
         tableDirigenti.addCell("");
         tableDirigenti.addCell("");
-
+        tableDirigenti.setSpacingAfter(10f);
         document.add(tableDirigenti);
 
         /**
          * TABELLA DEFIBRILLATORE
          */
+        PdfPTable tableInformazioni = new PdfPTable(1);
+        tableInformazioni.setWidthPercentage(100);
 
+        Font redBoldFont1 = new Font(Font.HELVETICA, 12, Font.BOLD, darkRed);
+        Font redBoldFont2 = new Font(Font.HELVETICA, 10, Font.BOLD, darkRed);
 
+        PdfPCell cellPrimaRiga = new PdfPCell(new Phrase(Constants.TITOLO_DEFIBRILLATORE, redBoldFont1));
+        cellPrimaRiga.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cellPrimaRiga.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cellPrimaRiga.setBorder(Rectangle.BOX);
+        cellPrimaRiga.setFixedHeight(35f);
+        tableInformazioni.addCell(cellPrimaRiga);
 
+        PdfPCell cellSecondaRiga = new PdfPCell(new Phrase(Constants.SOTTOTITOLO_DEFIBRILLATORE, redBoldFont2));
+        cellSecondaRiga.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cellSecondaRiga.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cellSecondaRiga.setBorder(Rectangle.BOX);
+        cellSecondaRiga.setFixedHeight(35f);
+        tableInformazioni.addCell(cellSecondaRiga);
+        tableInformazioni.setSpacingAfter(10f);
+        document.add(tableInformazioni);
+
+        /**
+         * TABELLA DICHIARAZIONE DA FIRMARE
+         */
+        Font defaultFont = new Font(Font.HELVETICA, 10,  Font.BOLD, Color.BLACK);
+
+        PdfPTable tablePrima = new PdfPTable(2);
+        tablePrima.setWidthPercentage(100);
+
+        PdfPCell cellSottoscritto = new PdfPCell(new Phrase("IL/LA SOTTOSCRITTO/A_______________________", defaultFont));
+        cellSottoscritto.setBorder(Rectangle.NO_BORDER);
+        tablePrima.addCell(cellSottoscritto);
+
+        PdfPCell cellCodiceFiscale = new PdfPCell(new Phrase("CODICE FISCALE____________________________", defaultFont));
+        cellCodiceFiscale.setBorder(Rectangle.NO_BORDER);
+        tablePrima.addCell(cellCodiceFiscale);
+        tablePrima.setSpacingAfter(5f);
+        document.add(tablePrima);
+
+        PdfPTable tableSeconda = new PdfPTable(3);
+        tableSeconda.setWidthPercentage(100);
+        tableSeconda.setWidths(new float[]{0.3f, 0.3f, 0.4f});
+
+        PdfPCell cellNatoIl = new PdfPCell(new Phrase("NATO/A IL__________________", defaultFont));
+        cellNatoIl.setBorder(Rectangle.NO_BORDER);
+        tableSeconda.addCell(cellNatoIl);
+
+        PdfPCell cellA = new PdfPCell(new Phrase("A__________________________", defaultFont));
+        cellA.setBorder(Rectangle.NO_BORDER);
+        tableSeconda.addCell(cellA);
+
+        PdfPCell cellResidenteIn = new PdfPCell(new Phrase("RESIDENTE IN_____________________", defaultFont));
+        cellResidenteIn.setBorder(Rectangle.NO_BORDER);
+        tableSeconda.addCell(cellResidenteIn);
+        tableSeconda.setSpacingAfter(5f);
+        document.add(tableSeconda);
+
+        PdfPTable tableTerza = new PdfPTable(1);
+        tableTerza.setWidthPercentage(100);
+
+        PdfPCell cellConsapevole = new PdfPCell(new Phrase(Constants.TESTO_DICHIARAZIONE_DEFIBRILLATORE, defaultFont));
+        cellConsapevole.setBorder(Rectangle.NO_BORDER);
+        cellConsapevole.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+        tableTerza.addCell(cellConsapevole);
+        tableTerza.setSpacingAfter(20f);
+        document.add(tableTerza);
+
+        /**
+         * TABELLA DATA E FIRME
+         */
+        PdfPTable tabellaFirme = new PdfPTable(3);
+        tabellaFirme.setWidthPercentage(100);
+
+        PdfPCell cellData = new PdfPCell(new Paragraph("DATA_________________", defaultFont));
+        cellData.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cellData.setBorder(Rectangle.NO_BORDER);
+        tabellaFirme.addCell(cellData);
+
+        PdfPCell cellFirma = new PdfPCell(new Paragraph("FIRMA_______________________", defaultFont));
+        cellFirma.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cellFirma.setBorder(Rectangle.NO_BORDER);
+        tabellaFirme.addCell(cellFirma);
+
+        PdfPCell cellCapitano = new PdfPCell(new Paragraph("IL CAPITANO", new Font(Font.HELVETICA, 10)));
+        cellCapitano.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cellCapitano.setBorder(Rectangle.NO_BORDER);
+        tabellaFirme.addCell(cellCapitano);
+        document.add(tabellaFirme);
 
         /**
          * CHIUSURA DOCUMENTO
