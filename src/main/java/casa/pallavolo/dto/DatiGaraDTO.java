@@ -18,4 +18,5 @@ public class DatiGaraDTO {
     private String impianto;
     private LocalDateTime dataOra;
     private String campionato;
+    private Boolean isTrasferta;
 }

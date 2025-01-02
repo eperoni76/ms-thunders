@@ -2,6 +2,8 @@ package casa.pallavolo.service;
 
 import casa.pallavolo.dto.DatiGaraDTO;
 import casa.pallavolo.dto.GiocatoreDTO;
+import casa.pallavolo.model.AddettoDefibrillatore;
+import casa.pallavolo.repository.AddettoDefibrillatoreRepository;
 import casa.pallavolo.utils.Constants;
 import casa.pallavolo.utils.Paths;
 import com.lowagie.text.*;
@@ -25,6 +27,12 @@ public class PdfService {
 
     @Autowired
     private GiocatoreService giocatoreService;
+    @Autowired
+    private AddettoDefibrillatoreRepository addettoDefibrillatoreRepository;
+
+    public AddettoDefibrillatore getAddettoDefibrillatoreById(Integer id){
+        return addettoDefibrillatoreRepository.findById(id).orElse(null);
+    }
 
     public byte[] generaListaGara(DatiGaraDTO datiGara) throws IOException {
         /**
@@ -358,15 +366,30 @@ public class PdfService {
          * TABELLA DICHIARAZIONE DA FIRMARE
          */
         Font defaultFont = new Font(Font.HELVETICA, 10,  Font.BOLD, Color.BLACK);
+        AddettoDefibrillatore addettoDefibrillatore = getAddettoDefibrillatoreById(1);
+
+        Phrase sottoscritto = new Phrase("IL/LA SOTTOSCRITTO/A: ", defaultFont);
+        Phrase codiceFiscale = new Phrase("CODICE FISCALE: ", defaultFont);
+        Phrase dataNascita = new Phrase("NATO/A IL: ", defaultFont);
+        Phrase luogoNascita = new Phrase("A: ", defaultFont);
+        Phrase luogoResidenza = new Phrase("RESIDENTE IN: ", defaultFont);
+
+        if(!datiGara.getIsTrasferta()){
+            sottoscritto.add(new Chunk(addettoDefibrillatore.getNome() + " " + addettoDefibrillatore.getCognome(), defaultFont));
+            codiceFiscale.add(new Chunk(addettoDefibrillatore.getCodiceFiscale().toUpperCase(), defaultFont));
+            dataNascita.add(new Chunk(dataNascitaFormatter.format(addettoDefibrillatore.getDataNascita()), defaultFont));
+            luogoNascita.add(new Chunk(addettoDefibrillatore.getLuogoNascita(), defaultFont));
+            luogoResidenza.add(new Chunk(addettoDefibrillatore.getLuogoResidenza(), defaultFont));
+        }
 
         PdfPTable tablePrima = new PdfPTable(2);
         tablePrima.setWidthPercentage(100);
 
-        PdfPCell cellSottoscritto = new PdfPCell(new Phrase("IL/LA SOTTOSCRITTO/A_______________________", defaultFont));
+        PdfPCell cellSottoscritto = new PdfPCell(sottoscritto);
         cellSottoscritto.setBorder(Rectangle.NO_BORDER);
         tablePrima.addCell(cellSottoscritto);
 
-        PdfPCell cellCodiceFiscale = new PdfPCell(new Phrase("CODICE FISCALE____________________________", defaultFont));
+        PdfPCell cellCodiceFiscale = new PdfPCell(codiceFiscale);
         cellCodiceFiscale.setBorder(Rectangle.NO_BORDER);
         tablePrima.addCell(cellCodiceFiscale);
         tablePrima.setSpacingAfter(5f);
@@ -374,17 +397,17 @@ public class PdfService {
 
         PdfPTable tableSeconda = new PdfPTable(3);
         tableSeconda.setWidthPercentage(100);
-        tableSeconda.setWidths(new float[]{0.3f, 0.3f, 0.4f});
+        tableSeconda.setWidths(new float[]{0.3f, 0.2f, 0.5f});
 
-        PdfPCell cellNatoIl = new PdfPCell(new Phrase("NATO/A IL__________________", defaultFont));
+        PdfPCell cellNatoIl = new PdfPCell(dataNascita);
         cellNatoIl.setBorder(Rectangle.NO_BORDER);
         tableSeconda.addCell(cellNatoIl);
 
-        PdfPCell cellA = new PdfPCell(new Phrase("A__________________________", defaultFont));
+        PdfPCell cellA = new PdfPCell(luogoNascita);
         cellA.setBorder(Rectangle.NO_BORDER);
         tableSeconda.addCell(cellA);
 
-        PdfPCell cellResidenteIn = new PdfPCell(new Phrase("RESIDENTE IN_____________________", defaultFont));
+        PdfPCell cellResidenteIn = new PdfPCell(luogoResidenza);
         cellResidenteIn.setBorder(Rectangle.NO_BORDER);
         tableSeconda.addCell(cellResidenteIn);
         tableSeconda.setSpacingAfter(5f);
