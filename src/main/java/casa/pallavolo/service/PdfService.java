@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -35,6 +37,8 @@ public class PdfService {
         PdfWriter.getInstance(document, risultato);
         document.open();
         Color darkGreen = new Color(0, 128, 0);
+        DateTimeFormatter dataEOraFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter dataNascitaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         /**
          * CARICAMENTO IMMAGINI
@@ -123,8 +127,7 @@ public class PdfService {
         Phrase phrase1 = new Phrase();
         phrase1.add(chunk1_1);
         phrase1.add(chunk1_2);
-        garaCell1.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        garaCell1.setVerticalAlignment(Element.ALIGN_CENTER);
         garaCell1.setPadding(2f);
         garaCell1.addElement(phrase1);
         gara1.addCell(garaCell1);
@@ -136,8 +139,7 @@ public class PdfService {
         Phrase phrase2 = new Phrase();
         phrase2.add(chunk2_1);
         phrase2.add(chunk2_2);
-        garaCell2.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        garaCell2.setVerticalAlignment(Element.ALIGN_CENTER);
         garaCell2.setPadding(2f);
         garaCell2.addElement(phrase2);
         gara1.addCell(garaCell2);
@@ -149,8 +151,7 @@ public class PdfService {
         Phrase phrase3 = new Phrase();
         phrase3.add(chunk3_1);
         phrase3.add(chunk3_2);
-        garaCell3.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        garaCell3.setVerticalAlignment(Element.ALIGN_CENTER);
         garaCell3.setPadding(2f);
         garaCell3.addElement(phrase3);
         gara1.addCell(garaCell3);
@@ -167,8 +168,6 @@ public class PdfService {
         Phrase phrase4 = new Phrase();
         phrase4.add(chunk4_1);
         phrase4.add(chunk4_2);
-        garaCell4.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell4.setVerticalAlignment(Element.ALIGN_MIDDLE);
         garaCell4.setPadding(2f);
         garaCell4.addElement(phrase4);
         gara2.addCell(garaCell4);
@@ -180,21 +179,17 @@ public class PdfService {
         Phrase phrase5 = new Phrase();
         phrase5.add(chunk5_1);
         phrase5.add(chunk5_2);
-        garaCell5.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell5.setVerticalAlignment(Element.ALIGN_MIDDLE);
         garaCell5.setPadding(2f);
         garaCell5.addElement(phrase5);
         gara2.addCell(garaCell5);
 
         // Cella 3: DATA E ORA
         Chunk chunk6_1 = new Chunk("DATA E ORA", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
-        Chunk chunk6_2 = new Chunk("    " + datiGara.getDataOra().toString(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getDataOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell6 = new PdfPCell();
         Phrase phrase6 = new Phrase();
         phrase6.add(chunk6_1);
         phrase6.add(chunk6_2);
-        garaCell6.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell6.setVerticalAlignment(Element.ALIGN_MIDDLE);
         garaCell6.setPadding(2f);
         garaCell6.addElement(phrase6);
         gara2.addCell(garaCell6);
@@ -210,8 +205,6 @@ public class PdfService {
         Phrase phrase7 = new Phrase();
         phrase7.add(chunk7_1);
         phrase7.add(chunk7_2);
-        garaCell7.setHorizontalAlignment(Element.ALIGN_LEFT);
-        garaCell7.setVerticalAlignment(Element.ALIGN_MIDDLE);
         garaCell7.setPadding(2f);
         garaCell7.addElement(phrase7);
         gara3.addCell(garaCell7);
@@ -266,14 +259,15 @@ public class PdfService {
 
             Phrase nome = new Phrase(giocatore.getCognome().toUpperCase() + ' ' + giocatore.getNome().toUpperCase(), nomiFont);
             if(giocatore.getRuolo().equalsIgnoreCase("libero")){
-                nome.add("               L");
+                Chunk l = new Chunk("               L");
+                nome.add(l);
             }
             cell = new PdfPCell(nome);
             cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(giocatore.getDataNascita().toString(), dataFont));
+            cell = new PdfPCell(new Phrase(dataNascitaFormatter.format(giocatore.getDataNascita()), dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             table.addCell(cell);

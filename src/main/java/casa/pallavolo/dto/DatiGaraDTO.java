@@ -3,6 +3,7 @@ package casa.pallavolo.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,6 +16,6 @@ public class DatiGaraDTO {
     private String ospite;
     private String localita;
     private String impianto;
-    private LocalDate dataOra;
+    private LocalDateTime dataOra;
     private String campionato;
 }
