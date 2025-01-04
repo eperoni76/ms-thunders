@@ -30,4 +30,5 @@ public class Giocatore {
 	private String squadra;
 	private LocalDate dataNascita;
 	private String tesseraUisp;
+	private Boolean isCapitano;
 }

@@ -127,7 +127,6 @@ public class PdfService {
         gara1.setWidthPercentage(100);
         gara1.setWidths(new float[]{0.2f, 0.4f, 0.4f});
 
-        // Cella 1: N^ GARA
         Chunk chunk1_1 = new Chunk("N^ GARA", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk1_2 = new Chunk("    " + datiGara.getNumeroGara(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell1 = new PdfPCell();
@@ -139,7 +138,6 @@ public class PdfService {
         garaCell1.addElement(phrase1);
         gara1.addCell(garaCell1);
 
-        // Cella 2: OSPITANTE
         Chunk chunk2_1 = new Chunk("OSPITANTE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk2_2 = new Chunk("    " + datiGara.getOspitante(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell2 = new PdfPCell();
@@ -151,7 +149,6 @@ public class PdfService {
         garaCell2.addElement(phrase2);
         gara1.addCell(garaCell2);
 
-        // Cella 3: OSPITE
         Chunk chunk3_1 = new Chunk("OSPITE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk3_2 = new Chunk("    " + datiGara.getOspite(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell3 = new PdfPCell();
@@ -168,7 +165,6 @@ public class PdfService {
         gara2.setWidthPercentage(100);
         gara2.setWidths(new float[]{0.2f, 0.4f, 0.4f});
 
-        // Cella 1: LOCALITÀ
         Chunk chunk4_1 = new Chunk("LOCALITÀ", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk4_2 = new Chunk("    " + datiGara.getLocalita(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell4 = new PdfPCell();
@@ -179,7 +175,6 @@ public class PdfService {
         garaCell4.addElement(phrase4);
         gara2.addCell(garaCell4);
 
-        // Cella 2: IMPIANTO
         Chunk chunk5_1 = new Chunk("IMPIANTO", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk5_2 = new Chunk("    " + datiGara.getImpianto(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell5 = new PdfPCell();
@@ -190,7 +185,6 @@ public class PdfService {
         garaCell5.addElement(phrase5);
         gara2.addCell(garaCell5);
 
-        // Cella 3: DATA E ORA
         Chunk chunk6_1 = new Chunk("DATA E ORA", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getDataOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell6 = new PdfPCell();
@@ -205,7 +199,6 @@ public class PdfService {
         PdfPTable gara3 = new PdfPTable(1);
         gara3.setWidthPercentage(100);
 
-        // Cella 1: CAMPIONATO
         Chunk chunk7_1 = new Chunk("CAMPIONATO", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
         Chunk chunk7_2 = new Chunk("    " + datiGara.getCampionato(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell7 = new PdfPCell();
@@ -263,15 +256,30 @@ public class PdfService {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             tableGiocatori.addCell(cell);
 
-            Phrase nome = new Phrase(giocatore.getCognome().toUpperCase() + ' ' + giocatore.getNome().toUpperCase(), nomiFont);
-            if(giocatore.getRuolo().equalsIgnoreCase("libero")){
-                Chunk l = new Chunk("               L");
-                nome.add(l);
+            PdfPCell nomeCell;
+            if (giocatore.getRuolo().equalsIgnoreCase("libero") || giocatore.getIsCapitano()) {
+                PdfPTable nestedTable = new PdfPTable(2);
+                nestedTable.setWidthPercentage(100);
+                nestedTable.setWidths(new float[]{90, 10});
+
+                PdfPCell nomeCognomeCell = new PdfPCell(new Phrase(giocatore.getCognome().toUpperCase() + " " + giocatore.getNome().toUpperCase(), nomiFont));
+                nomeCognomeCell.setBorder(Rectangle.NO_BORDER);
+                nomeCognomeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                nestedTable.addCell(nomeCognomeCell);
+
+                String aggiunta = giocatore.getIsCapitano() ? "K" : "L";
+                PdfPCell liberoCell = new PdfPCell(new Phrase(aggiunta, nomiFont));
+                liberoCell.setBorder(Rectangle.NO_BORDER);
+                liberoCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                nestedTable.addCell(liberoCell);
+
+                nomeCell = new PdfPCell(nestedTable);
+            } else {
+                nomeCell = new PdfPCell(new Phrase(giocatore.getCognome().toUpperCase() + " " + giocatore.getNome().toUpperCase(), nomiFont));
             }
-            cell = new PdfPCell(nome);
-            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            tableGiocatori.addCell(cell);
+            nomeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            nomeCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            tableGiocatori.addCell(nomeCell);
 
             cell = new PdfPCell(new Phrase(dataNascitaFormatter.format(giocatore.getDataNascita()), dataFont));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -288,6 +296,7 @@ public class PdfService {
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             tableGiocatori.addCell(cell);
         }
+
         document.add(tableGiocatori);
 
         /**
