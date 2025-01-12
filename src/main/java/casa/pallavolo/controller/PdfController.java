@@ -28,7 +28,7 @@ public class PdfController {
         try {
             listaGara = pdfService.generaListaGara(datiGara);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
         ByteArrayResource resource = new ByteArrayResource(listaGara);
         HttpHeaders headers = new HttpHeaders();

@@ -28,11 +28,7 @@ public class PdfService {
     @Autowired
     private GiocatoreService giocatoreService;
     @Autowired
-    private AddettoDefibrillatoreRepository addettoDefibrillatoreRepository;
-
-    public AddettoDefibrillatore getAddettoDefibrillatoreById(Integer id){
-        return addettoDefibrillatoreRepository.findById(id).orElse(null);
-    }
+    private AddettoDefibrillatoreService addettoDefibrillatoreService;
 
     public byte[] generaListaGara(DatiGaraDTO datiGara) throws IOException {
         /**
@@ -375,7 +371,7 @@ public class PdfService {
          * TABELLA DICHIARAZIONE DA FIRMARE
          */
         Font defaultFont = new Font(Font.HELVETICA, 10,  Font.BOLD, Color.BLACK);
-        AddettoDefibrillatore addettoDefibrillatore = getAddettoDefibrillatoreById(1);
+        AddettoDefibrillatore addettoDefibrillatore = addettoDefibrillatoreService.getAddettoDefibrillatoreById(1);
 
         Phrase sottoscritto = new Phrase("IL/LA SOTTOSCRITTO/A: ", defaultFont);
         Phrase codiceFiscale = new Phrase("CODICE FISCALE: ", defaultFont);
