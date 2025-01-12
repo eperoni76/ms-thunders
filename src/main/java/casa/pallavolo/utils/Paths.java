@@ -9,6 +9,11 @@ public class Paths {
 	public final static String UPDATE_GIOCATORE = "/updateGiocatore";
 	public final static String PDF_BASE = "/pdf";
 	public final static String GENERA_LISTA_GARA = "/listaGara";
+	public final static String DIRIGENTI_BASE = "/dirigenti";
+	public final static String GET_ALL_DIRIGENTI = "/getAllDirigenti";
+	public final static String GET_ALL_ALLENATORI = "/getAllAllenatori";
+	public final static String ADDETTI_BASE = "/addetti";
+	public final static String GET_ALL_ADDETTI_DEFIBRILLATORE = "/getAllAddettiDefibrillatore";
 
 	//Path per immagini UISP creazione lista gara
 	public final static String UISP_IMAGE_1 = "src/main/resources/images/uisp1.png";

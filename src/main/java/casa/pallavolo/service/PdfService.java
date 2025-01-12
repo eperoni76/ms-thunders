@@ -3,7 +3,7 @@ package casa.pallavolo.service;
 import casa.pallavolo.dto.DatiGaraDTO;
 import casa.pallavolo.dto.GiocatoreDTO;
 import casa.pallavolo.model.AddettoDefibrillatore;
-import casa.pallavolo.repository.AddettoDefibrillatoreRepository;
+import casa.pallavolo.model.Dirigente;
 import casa.pallavolo.utils.Constants;
 import casa.pallavolo.utils.Paths;
 import com.lowagie.text.*;
@@ -29,6 +29,8 @@ public class PdfService {
     private GiocatoreService giocatoreService;
     @Autowired
     private AddettoDefibrillatoreService addettoDefibrillatoreService;
+    @Autowired
+    private DirigenteService dirigenteService;
 
     public byte[] generaListaGara(DatiGaraDTO datiGara) throws IOException {
         /**
@@ -308,15 +310,23 @@ public class PdfService {
         cell1Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cell1Allenatore);
 
-        PdfPCell allenatoreCellValue = new PdfPCell(new Phrase("peroni emanuele".toUpperCase(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
+        StringBuilder primoAllenatoreNome = new StringBuilder();
+        String primoAllenatoreTesseraUisp = "";
+        if(datiGara.getAllenatore()!=null){
+            Dirigente primoAllenatore = dirigenteService.getDirigenteById(datiGara.getAllenatore());
+            primoAllenatoreNome.append(primoAllenatore.getCognome().toUpperCase()).append(" ").append(primoAllenatore.getNome().toUpperCase());
+            primoAllenatoreTesseraUisp = primoAllenatore.getTesseraUisp();
+        }
+        PdfPCell allenatoreCellValue = new PdfPCell(new Phrase(primoAllenatoreNome.toString(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
         allenatoreCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
         allenatoreCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(allenatoreCellValue);
 
-        PdfPCell allenatoreTesseraCellValue = new PdfPCell(new Phrase("250618885", new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        PdfPCell allenatoreTesseraCellValue = new PdfPCell(new Phrase(primoAllenatoreTesseraUisp, new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
         allenatoreTesseraCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
         allenatoreTesseraCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(allenatoreTesseraCellValue);
+
         tableDirigenti.addCell("");
 
         PdfPCell cell2Allenatore = new PdfPCell(new Phrase("2^ ALLENATORE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen)));
@@ -324,8 +334,23 @@ public class PdfService {
         cell2Allenatore.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cell2Allenatore);
 
-        tableDirigenti.addCell("");
-        tableDirigenti.addCell("");
+        StringBuilder secondoAllenatoreNome = new StringBuilder();
+        String secondoAllenatoreTesseraUisp = "";
+        if(datiGara.getSecondoAllenatore()!=null){
+            Dirigente secondoAllenatore = dirigenteService.getDirigenteById(datiGara.getSecondoAllenatore());
+            secondoAllenatoreNome.append(secondoAllenatore.getCognome().toUpperCase()).append(" ").append(secondoAllenatore.getNome().toUpperCase());
+            secondoAllenatoreTesseraUisp = secondoAllenatore.getTesseraUisp();
+        }
+        PdfPCell secondoAllenatoreCellValue = new PdfPCell(new Phrase(secondoAllenatoreNome.toString(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
+        secondoAllenatoreCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        secondoAllenatoreCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(secondoAllenatoreCellValue);
+
+        PdfPCell secondoAllenatoreTesseraCellValue = new PdfPCell(new Phrase(secondoAllenatoreTesseraUisp, new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        secondoAllenatoreTesseraCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        secondoAllenatoreTesseraCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(secondoAllenatoreTesseraCellValue);
+
         tableDirigenti.addCell("");
 
         PdfPCell cellDirigente = new PdfPCell(new Phrase("DIRIGENTE", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen)));
@@ -333,12 +358,25 @@ public class PdfService {
         cellDirigente.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(cellDirigente);
 
-        PdfPCell dirigenteCellValue = new PdfPCell(new Phrase("formiconi sergio".toUpperCase(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
+        StringBuilder dirigenteNome = new StringBuilder();
+        String dirigenteTesseraUisp = "";
+        if(datiGara.getDirigente()!=null){
+            Dirigente dirigente = dirigenteService.getDirigenteById(datiGara.getDirigente());
+            dirigenteNome.append(dirigente.getCognome().toUpperCase()).append(" ").append(dirigente.getNome().toUpperCase());
+            dirigenteTesseraUisp = dirigente.getTesseraUisp();
+        }
+        PdfPCell dirigenteCellValue = new PdfPCell(new Phrase(dirigenteNome.toString().toUpperCase(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK)));
         dirigenteCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
         dirigenteCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
         tableDirigenti.addCell(dirigenteCellValue);
+
+        PdfPCell dirigenteTesseraCellValue = new PdfPCell(new Phrase(dirigenteTesseraUisp, new Font(Font.HELVETICA, 10, Font.BOLD, Color.BLACK)));
+        dirigenteTesseraCellValue.setHorizontalAlignment(Element.ALIGN_CENTER);
+        dirigenteTesseraCellValue.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tableDirigenti.addCell(dirigenteTesseraCellValue);
+
         tableDirigenti.addCell("");
-        tableDirigenti.addCell("");
+
         tableDirigenti.setSpacingAfter(10f);
         document.add(tableDirigenti);
 
@@ -371,16 +409,15 @@ public class PdfService {
          * TABELLA DICHIARAZIONE DA FIRMARE
          */
         Font defaultFont = new Font(Font.HELVETICA, 10,  Font.BOLD, Color.BLACK);
-        AddettoDefibrillatore addettoDefibrillatore = addettoDefibrillatoreService.getAddettoDefibrillatoreById(1);
-
         Phrase sottoscritto = new Phrase("IL/LA SOTTOSCRITTO/A: ", defaultFont);
         Phrase codiceFiscale = new Phrase("CODICE FISCALE: ", defaultFont);
         Phrase dataNascita = new Phrase("NATO/A IL: ", defaultFont);
         Phrase luogoNascita = new Phrase("A: ", defaultFont);
         Phrase luogoResidenza = new Phrase("RESIDENTE IN: ", defaultFont);
 
-        if(!datiGara.getIsTrasferta()){
-            sottoscritto.add(new Chunk(addettoDefibrillatore.getNome() + " " + addettoDefibrillatore.getCognome(), defaultFont));
+        if(datiGara.getAddettoDefibrillatore()!=null){
+            AddettoDefibrillatore addettoDefibrillatore = addettoDefibrillatoreService.getAddettoDefibrillatoreById(datiGara.getAddettoDefibrillatore());
+            sottoscritto.add(new Chunk(addettoDefibrillatore.getNome().toUpperCase() + " " + addettoDefibrillatore.getCognome().toUpperCase(), defaultFont));
             codiceFiscale.add(new Chunk(addettoDefibrillatore.getCodiceFiscale().toUpperCase(), defaultFont));
             dataNascita.add(new Chunk(dataNascitaFormatter.format(addettoDefibrillatore.getDataNascita()), defaultFont));
             luogoNascita.add(new Chunk(addettoDefibrillatore.getLuogoNascita(), defaultFont));

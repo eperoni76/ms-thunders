@@ -3,6 +3,7 @@ package casa.pallavolo.controller;
 import java.util.List;
 
 import casa.pallavolo.dto.DatiGaraDTO;
+import casa.pallavolo.utils.GenericUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class GiocatoreController {
 	public ResponseEntity<List<GiocatoreDTO>> getAllGiocatori(){
 		List<GiocatoreDTO> giocatori = giocatoreService.getAllGiocatori();
 		if(giocatori.isEmpty()) {
-			return noContentResult("Nessun risultato trovato");
+			return GenericUtils.noContentResult();
 		}
 		return ResponseEntity.ok(giocatori);
 	}
@@ -32,7 +33,7 @@ public class GiocatoreController {
 	public ResponseEntity<GiocatoreDTO> getGiocatoreById(@PathVariable Integer id){
 		GiocatoreDTO giocatoreTrovato = giocatoreService.getGiocatoreById(id);
 		if(giocatoreTrovato==null) {
-			return noContentResult("Nessun giocatore trovato");
+			return GenericUtils.noContentResult();
 		}
 		return ResponseEntity.ok(giocatoreTrovato);
 	}
@@ -41,7 +42,7 @@ public class GiocatoreController {
 	public ResponseEntity<List<GiocatoreDTO>> getGiocatoriByRuolo(@PathVariable String ruolo){
 		List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriByRuolo(ruolo.toLowerCase());
 		if(giocatori.isEmpty()) {
-			return noContentResult("Nessun risultato trovato");
+			return GenericUtils.noContentResult();
 		}
 		return ResponseEntity.ok(giocatori);
 	}
@@ -59,18 +60,13 @@ public class GiocatoreController {
 	@DeleteMapping(Paths.DELETE_GIOCATORE_BY_ID)
 	public ResponseEntity<Void> cancellaGiocatoreById(@PathVariable Integer id){
 		 giocatoreService.cancellaGiocatoreById(id);
-		 return noContentResult("Giocatore eliminato correttamente");
+		 return GenericUtils.noContentResult();
 	}
 
 	@PutMapping(Paths.UPDATE_GIOCATORE)
 	public ResponseEntity<GiocatoreDTO> updateGiocatore(@RequestBody GiocatoreDTO giocatoreDaAggiornare){
 		GiocatoreDTO giocatoreAggiornato = giocatoreService.aggiornaGiocatore(giocatoreDaAggiornare);
 		return ResponseEntity.ok(giocatoreAggiornato);
-	}
-	
-	private <T> ResponseEntity<T> noContentResult(String messaggio) {
-		System.out.println(messaggio);
-		return ResponseEntity.noContent().build();
 	}
 	
 	

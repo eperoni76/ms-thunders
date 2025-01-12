@@ -2,7 +2,6 @@ package casa.pallavolo.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,4 +18,8 @@ public class DatiGaraDTO {
     private LocalDateTime dataOra;
     private String campionato;
     private Boolean isTrasferta;
+    private Integer allenatore;
+    private Integer secondoAllenatore;
+    private Integer dirigente;
+    private Integer addettoDefibrillatore;
 }
