@@ -17,7 +17,7 @@ public class GiocatoreDTO {
 	private String cognome;
 	private Integer numeroMaglia;
 	private String ruolo;
-	private String squadra;
+	private Integer squadra;
 	private LocalDate dataNascita;
 	private String tesseraUisp;
 	private Boolean isCapitano;

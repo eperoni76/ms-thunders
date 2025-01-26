@@ -13,7 +13,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tb_thunders")
+@Table(name = "tb_giocatori")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class Giocatore {
 	private String cognome;
 	private Integer numeroMaglia;
 	private String ruolo;
-	private String squadra;
+	private Integer squadra;
 	private LocalDate dataNascita;
 	private String tesseraUisp;
 	private Boolean isCapitano;
