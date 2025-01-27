@@ -9,6 +9,7 @@ public class Paths {
 	public final static String GET_GIOCATORI = "/getGiocatori";
 	public final static String GET_GIOCATORE_BY_ID = "/getGiocatoreById/{id}";
 	public final static String GET_GIOCATORI_BY_RUOLO = "/getGiocatoriByRuolo/{ruolo}";
+	public final static String GET_GIOCATORI_BY_SQUADRA = "/getGiocatoriBySquadra/{squadra}";
 	public final static String GET_ALL_DIRIGENTI = "/getAllDirigenti";
 	public final static String GET_ALL_ALLENATORI = "/getAllAllenatori";
 	public final static String GET_ALL_ADDETTI_DEFIBRILLATORE = "/getAllAddettiDefibrillatore";

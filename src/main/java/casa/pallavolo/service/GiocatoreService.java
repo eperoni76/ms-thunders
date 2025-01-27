@@ -1,5 +1,6 @@
 package casa.pallavolo.service;
 
+import java.util.Comparator;
 import java.util.List;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -25,7 +26,16 @@ public class GiocatoreService {
 				.findAll()
 				.stream()
 				.map(giocatore -> giocatoreMapper.map(giocatore, GiocatoreDTO.class))
-				.sorted((giocatore1, giocatore2) -> giocatore1.getCognome().compareTo(giocatore2.getCognome()))
+				.sorted(Comparator.comparing(GiocatoreDTO::getCognome))
+				.toList();
+	}
+
+	public List<GiocatoreDTO> getGiocatoriBySquadra(Integer squadra){
+		return giocatoreRepository
+				.findBySquadra(squadra)
+				.stream()
+				.map(giocatore -> giocatoreMapper.map(giocatore, GiocatoreDTO.class))
+				.sorted(Comparator.comparing(GiocatoreDTO::getCognome))
 				.toList();
 	}
 	
@@ -39,7 +49,7 @@ public class GiocatoreService {
 				.findByRuolo(ruolo)
 				.stream()
 				.map(giocatore -> giocatoreMapper.map(giocatore, GiocatoreDTO.class))
-				.sorted((giocatore1, giocatore2) -> giocatore1.getCognome().compareTo(giocatore2.getCognome()))
+				.sorted(Comparator.comparing(GiocatoreDTO::getCognome))
 				.toList();
 	}
 	

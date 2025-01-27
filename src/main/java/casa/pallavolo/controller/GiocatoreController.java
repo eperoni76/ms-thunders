@@ -46,7 +46,16 @@ public class GiocatoreController {
 		}
 		return ResponseEntity.ok(giocatori);
 	}
-	
+
+	@GetMapping(Paths.GET_GIOCATORI_BY_SQUADRA)
+	public ResponseEntity<List<GiocatoreDTO>> getGiocatoriBySquadra(@PathVariable Integer squadra){
+		List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriBySquadra(squadra);
+		if(giocatori.isEmpty()) {
+			return GenericUtils.noContentResult();
+		}
+		return ResponseEntity.ok(giocatori);
+	}
+
 	@PostMapping(Paths.INSERT_GIOCATORE)
 	public ResponseEntity<?> inserisciGiocatore(@RequestBody GiocatoreDTO giocatoreDaInserire){
 		try{

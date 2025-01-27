@@ -11,4 +11,5 @@ import casa.pallavolo.model.Giocatore;
 public interface GiocatoreRepository extends JpaRepository<Giocatore, Integer>{
 	List<Giocatore> findByRuolo(String ruolo);
 	boolean existsByNumeroMaglia(int numeroMaglia);
+	List<Giocatore> findBySquadra(Integer squadra);
 }
