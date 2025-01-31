@@ -1,6 +1,6 @@
 package casa.pallavolo.controller;
 
-import casa.pallavolo.dto.DatiGaraDTO;
+import casa.pallavolo.dto.GaraDTO;
 import casa.pallavolo.service.PdfService;
 import casa.pallavolo.utils.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class PdfController {
     private PdfService pdfService;
 
     @PostMapping(Paths.GENERA_LISTA_GARA)
-    public ResponseEntity<ByteArrayResource> generaListaGara(@RequestBody DatiGaraDTO datiGara){
+    public ResponseEntity<ByteArrayResource> generaListaGara(@RequestBody GaraDTO datiGara){
         byte[] listaGara = null;
         try {
             listaGara = pdfService.generaListaGara(datiGara);

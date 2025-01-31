@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class DatiGaraDTO {
+public class GaraDTO {
     private Integer numeroGara;
     private String ospitante;
     private String ospite;

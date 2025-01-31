@@ -1,6 +1,6 @@
 package casa.pallavolo.service;
 
-import casa.pallavolo.dto.DatiGaraDTO;
+import casa.pallavolo.dto.GaraDTO;
 import casa.pallavolo.dto.GiocatoreDTO;
 import casa.pallavolo.model.AddettoDefibrillatore;
 import casa.pallavolo.model.Dirigente;
@@ -32,7 +32,7 @@ public class PdfService {
     @Autowired
     private DirigenteService dirigenteService;
 
-    public byte[] generaListaGara(DatiGaraDTO datiGara) throws IOException {
+    public byte[] generaListaGara(GaraDTO datiGara) throws IOException {
         /**
          * APERTURA DOCUMENTO
          */
