@@ -22,4 +22,8 @@ public class SquadraService {
                 .map(squadra -> squadraMapper.map(squadra, SquadraDTO.class))
                 .toList();
     }
+
+    public SquadraDTO getSquadraById(Integer id){
+        return squadraRepository.findById(id).map(squadra -> squadraMapper.map(squadra, SquadraDTO.class)).orElse(null);
+    }
 }

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @Controller
@@ -26,5 +28,11 @@ public class SquadraController {
             return GenericUtils.noContentResult();
         }
         return ResponseEntity.ok(squadre);
+    }
+
+    @GetMapping(Paths.GET_SQUADRA_BY_ID)
+    public ResponseEntity<SquadraDTO> getSquadraById(@PathVariable Integer idSquadra){
+        SquadraDTO squadra = squadraService.getSquadraById(idSquadra);
+        return squadra == null ? GenericUtils.noContentResult() : ResponseEntity.ok(squadra);
     }
 }

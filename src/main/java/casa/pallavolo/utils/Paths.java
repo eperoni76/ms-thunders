@@ -14,6 +14,7 @@ public class Paths {
 	public final static String GET_ALL_ALLENATORI = "/getAllAllenatori";
 	public final static String GET_ALL_ADDETTI_DEFIBRILLATORE = "/getAllAddettiDefibrillatore";
 	public final static String GET_ALL_SQUADRE = "/getAllSquadre";
+	public final static String GET_SQUADRA_BY_ID = "/getSquadraById/{idSquadra}";
 
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
 
