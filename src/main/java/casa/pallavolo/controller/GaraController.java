@@ -42,8 +42,14 @@ public class GaraController {
     }
 
     @PutMapping(Paths.UPDATE_GARA)
-    public ResponseEntity<GaraDTO> updateGiocatore(@RequestBody GaraDTO garaDaModificare){
+    public ResponseEntity<GaraDTO> updateGara(@RequestBody GaraDTO garaDaModificare){
         GaraDTO giocatoreAggiornato = garaService.modificaGara(garaDaModificare);
         return ResponseEntity.ok(giocatoreAggiornato);
+    }
+
+    @DeleteMapping(Paths.DELETE_GARA_BY_ID)
+    public ResponseEntity<Void> eliminaGaraById(@PathVariable Integer id){
+        garaService.eliminaGaraById(id);
+        return GenericUtils.noContentResult();
     }
 }

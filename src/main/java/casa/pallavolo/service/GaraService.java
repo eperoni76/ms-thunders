@@ -1,10 +1,7 @@
 package casa.pallavolo.service;
 
 import casa.pallavolo.dto.GaraDTO;
-import casa.pallavolo.dto.GiocatoreDTO;
-import casa.pallavolo.dto.SquadraDTO;
 import casa.pallavolo.model.Gara;
-import casa.pallavolo.model.Giocatore;
 import casa.pallavolo.model.Squadra;
 import casa.pallavolo.repository.GaraRepository;
 import casa.pallavolo.repository.SquadraRepository;
@@ -58,5 +55,9 @@ public class GaraService {
 
         Gara garaAggiornata = garaRepository.save(entity);
         return garaMapper.map(garaAggiornata, GaraDTO.class);
+    }
+
+    public void eliminaGaraById(Integer id){
+        garaRepository.deleteById(id);
     }
 }
