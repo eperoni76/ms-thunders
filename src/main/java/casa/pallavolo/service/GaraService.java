@@ -222,7 +222,7 @@ public class GaraService {
         gara2.addCell(garaCell4);
 
         Chunk chunk5_1 = new Chunk("IMPIANTO", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
-        Chunk chunk5_2 = new Chunk("    " + datiGara.getIndirizzo(), new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, Color.BLACK));
+        Chunk chunk5_2 = new Chunk("    " + datiGara.getIndirizzo(), new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 8, com.lowagie.text.Font.BOLD, Color.BLACK));
         PdfPCell garaCell5 = new PdfPCell();
         Phrase phrase5 = new Phrase();
         phrase5.add(chunk5_1);
@@ -232,11 +232,11 @@ public class GaraService {
         gara2.addCell(garaCell5);
 
         Chunk chunk6_1 = new Chunk("DATA E ORA", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
-        //Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getDataOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getData()) + "   " + dataEOraFormatter.format(datiGara.getOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell6 = new PdfPCell();
         Phrase phrase6 = new Phrase();
         phrase6.add(chunk6_1);
-        //phrase6.add(chunk6_2);
+        phrase6.add(chunk6_2);
         garaCell6.setPadding(2f);
         garaCell6.addElement(phrase6);
         gara2.addCell(garaCell6);
