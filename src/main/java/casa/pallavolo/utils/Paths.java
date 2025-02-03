@@ -1,7 +1,6 @@
 package casa.pallavolo.utils;
 
 public class Paths {
-	public final static String PDF_BASE = "/pdf";
 	public final static String DIRIGENTI_BASE = "/dirigenti";
 	public final static String ADDETTI_BASE = "/addetti";
 	public final static String SQUADRE_BASE = "/squadre";

@@ -9,10 +9,14 @@ import casa.pallavolo.service.GaraService;
 import casa.pallavolo.utils.GenericUtils;
 import casa.pallavolo.utils.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -51,5 +55,23 @@ public class GaraController {
     public ResponseEntity<Void> eliminaGaraById(@PathVariable Integer id){
         garaService.eliminaGaraById(id);
         return GenericUtils.noContentResult();
+    }
+
+    @PostMapping(Paths.GENERA_LISTA_GARA)
+    public ResponseEntity<ByteArrayResource> generaListaGara(@RequestBody GaraDTO datiGara){
+        byte[] listaGara = null;
+        try {
+            listaGara = garaService.generaListaGara(datiGara);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        ByteArrayResource resource = new ByteArrayResource(listaGara);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=gara_documento.pdf");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(listaGara.length)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 }
