@@ -1,14 +1,15 @@
 package casa.pallavolo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "tb_gare")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -19,12 +20,12 @@ public class Gara {
     private Integer numeroGara;
     private String ospitante;
     private String ospite;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_squadra", referencedColumnName = "id")
     private Squadra squadra;
-    private String localita;
-    private String impianto;
-    private LocalDateTime dataOra;
+    private String indirizzo;
+    private LocalDate data;
+    private LocalTime ora;
     private String campionato;
     private Boolean isTrasferta;
 }

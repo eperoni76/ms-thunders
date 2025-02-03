@@ -164,17 +164,17 @@ public class PdfService {
         gara2.setWidths(new float[]{0.2f, 0.4f, 0.4f});
 
         Chunk chunk4_1 = new Chunk("LOCALITÀ", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
-        Chunk chunk4_2 = new Chunk("    " + datiGara.getLocalita(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        //Chunk chunk4_2 = new Chunk("    " + datiGara.getLocalita(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell4 = new PdfPCell();
         Phrase phrase4 = new Phrase();
         phrase4.add(chunk4_1);
-        phrase4.add(chunk4_2);
+        //phrase4.add(chunk4_2);
         garaCell4.setPadding(2f);
         garaCell4.addElement(phrase4);
         gara2.addCell(garaCell4);
 
         Chunk chunk5_1 = new Chunk("IMPIANTO", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
-        Chunk chunk5_2 = new Chunk("    " + datiGara.getImpianto(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        Chunk chunk5_2 = new Chunk("    " + datiGara.getIndirizzo(), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell5 = new PdfPCell();
         Phrase phrase5 = new Phrase();
         phrase5.add(chunk5_1);
@@ -184,11 +184,11 @@ public class PdfService {
         gara2.addCell(garaCell5);
 
         Chunk chunk6_1 = new Chunk("DATA E ORA", new Font(Font.HELVETICA, 9, Font.BOLD, darkGreen));
-        Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getDataOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        //Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getDataOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell6 = new PdfPCell();
         Phrase phrase6 = new Phrase();
         phrase6.add(chunk6_1);
-        phrase6.add(chunk6_2);
+        //phrase6.add(chunk6_2);
         garaCell6.setPadding(2f);
         garaCell6.addElement(phrase6);
         gara2.addCell(garaCell6);

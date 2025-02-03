@@ -49,6 +49,7 @@ public class GiocatoreController {
 	@GetMapping(Paths.GET_GIOCATORI_BY_SQUADRA)
 	public ResponseEntity<List<GiocatoreDTO>> getGiocatoriBySquadra(@PathVariable Integer squadra){
 		List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriBySquadra(squadra);
+		System.out.println(giocatori);
 		if(giocatori.isEmpty()) {
 			return GenericUtils.noContentResult();
 		}

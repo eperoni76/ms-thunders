@@ -2,7 +2,9 @@ package casa.pallavolo.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -10,12 +12,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class GaraDTO {
+    private Integer id;
     private Integer numeroGara;
+    private SquadraDTO squadra;
     private String ospitante;
     private String ospite;
-    private String localita;
-    private String impianto;
-    private LocalDateTime dataOra;
+    private String indirizzo;
+    private LocalDate data;
+    private LocalTime ora;
     private String campionato;
     private Boolean isTrasferta;
     private Integer allenatore;

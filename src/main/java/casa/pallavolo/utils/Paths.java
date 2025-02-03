@@ -5,6 +5,8 @@ public class Paths {
 	public final static String DIRIGENTI_BASE = "/dirigenti";
 	public final static String ADDETTI_BASE = "/addetti";
 	public final static String SQUADRE_BASE = "/squadre";
+	public final static String GARE_BASE = "/gare";
+
 
 	public final static String GET_GIOCATORI = "/getGiocatori";
 	public final static String GET_GIOCATORE_BY_ID = "/getGiocatoreById/{id}";
@@ -15,12 +17,15 @@ public class Paths {
 	public final static String GET_ALL_ADDETTI_DEFIBRILLATORE = "/getAllAddettiDefibrillatore";
 	public final static String GET_ALL_SQUADRE = "/getAllSquadre";
 	public final static String GET_SQUADRA_BY_ID = "/getSquadraById/{idSquadra}";
+	public final static String GET_ALL_GARE = "/getAllGare";
 
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
+	public final static String INSERT_GARA = "/inserisciGara";
 
 	public final static String DELETE_GIOCATORE_BY_ID = "/deleteGiocatoreById/{id}";
 
 	public final static String UPDATE_GIOCATORE = "/updateGiocatore";
+	public static final String UPDATE_GARA = "/updateGara";
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
 
