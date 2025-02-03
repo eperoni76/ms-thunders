@@ -219,28 +219,20 @@ public class GaraService {
         gara1.addCell(garaCell3);
         document.add(gara1);
 
-        PdfPTable gara2 = new PdfPTable(3);
+        PdfPTable gara2 = new PdfPTable(2);
         gara2.setWidthPercentage(100);
-        gara2.setWidths(new float[]{0.2f, 0.4f, 0.4f});
+        gara2.setWidths(new float[]{0.7f, 0.3f});
 
-        Chunk chunk4_1 = new Chunk("LOCALITÀ", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
+        Chunk chunk4_1 = new Chunk("INDIRIZZO", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
+        Chunk chunk4_2 = new Chunk("     "+datiGara.getIndirizzo(), new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, Color.BLACK));
         PdfPCell garaCell4 = new PdfPCell();
         Phrase phrase4 = new Phrase();
         phrase4.add(chunk4_1);
+        phrase4.add(chunk4_2);
         garaCell4.setPadding(2f);
         garaCell4.addElement(phrase4);
         gara2.addCell(garaCell4);
 
-        Chunk chunk5_1 = new Chunk("IMPIANTO", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
-        String impianto = datiGara.getIndirizzo().split("-")[1];
-        Chunk chunk5_2 = new Chunk("    " + impianto, new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 8, com.lowagie.text.Font.BOLD, Color.BLACK));
-        PdfPCell garaCell5 = new PdfPCell();
-        Phrase phrase5 = new Phrase();
-        phrase5.add(chunk5_1);
-        phrase5.add(chunk5_2);
-        garaCell5.setPadding(2f);
-        garaCell5.addElement(phrase5);
-        gara2.addCell(garaCell5);
 
         Chunk chunk6_1 = new Chunk("DATA E ORA", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
         Chunk chunk6_2 = new Chunk("    " + dataFormatter.format(datiGara.getData()) + "   " + oraFormatter.format(datiGara.getOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
