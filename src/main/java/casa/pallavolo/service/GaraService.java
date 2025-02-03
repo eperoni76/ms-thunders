@@ -55,7 +55,16 @@ public class GaraService {
         return garaRepository
                 .findAll()
                 .stream()
-                .map(squadra -> garaMapper.map(squadra, GaraDTO.class))
+                .map(gara -> garaMapper.map(gara, GaraDTO.class))
+                .sorted(Comparator.comparing(GaraDTO::getData))
+                .toList();
+    }
+
+    public List<GaraDTO> getGareBySquadra(Integer idSquadra){
+        return garaRepository
+                .findByIdSquadra(idSquadra)
+                .stream()
+                .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
