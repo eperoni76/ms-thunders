@@ -101,7 +101,8 @@ public class GaraService {
         document.open();
         Color darkGreen = new Color(0, 128, 0);
         Color darkRed = new Color(139, 0, 0);
-        DateTimeFormatter dataEOraFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dataNascitaFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         /**
@@ -231,7 +232,8 @@ public class GaraService {
         gara2.addCell(garaCell4);
 
         Chunk chunk5_1 = new Chunk("IMPIANTO", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
-        Chunk chunk5_2 = new Chunk("    " + datiGara.getIndirizzo(), new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 8, com.lowagie.text.Font.BOLD, Color.BLACK));
+        String impianto = datiGara.getIndirizzo().split("-")[1];
+        Chunk chunk5_2 = new Chunk("    " + impianto, new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 8, com.lowagie.text.Font.BOLD, Color.BLACK));
         PdfPCell garaCell5 = new PdfPCell();
         Phrase phrase5 = new Phrase();
         phrase5.add(chunk5_1);
@@ -241,7 +243,7 @@ public class GaraService {
         gara2.addCell(garaCell5);
 
         Chunk chunk6_1 = new Chunk("DATA E ORA", new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 9, com.lowagie.text.Font.BOLD, darkGreen));
-        Chunk chunk6_2 = new Chunk("    " + dataEOraFormatter.format(datiGara.getData()) + "   " + dataEOraFormatter.format(datiGara.getOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
+        Chunk chunk6_2 = new Chunk("    " + dataFormatter.format(datiGara.getData()) + "   " + oraFormatter.format(datiGara.getOra()), new Font(Font.HELVETICA, 9, Font.BOLD, Color.BLACK));
         PdfPCell garaCell6 = new PdfPCell();
         Phrase phrase6 = new Phrase();
         phrase6.add(chunk6_1);
