@@ -44,6 +44,15 @@ public class GaraController {
         return ResponseEntity.ok(gare);
     }
 
+    @GetMapping(Paths.GET_GARE_CONCLUSE)
+    public ResponseEntity<List<GaraDTO>> getGareConcluse(){
+        List<GaraDTO> gare = garaService.getGareConcluse();
+        if(gare.isEmpty()){
+            return GenericUtils.noContentResult();
+        }
+        return ResponseEntity.ok(gare);
+    }
+
     @PostMapping(Paths.INSERT_GARA)
     public ResponseEntity<?> inserisciGara(@RequestBody GaraDTO garaDaInserire){
         try{

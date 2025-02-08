@@ -18,6 +18,7 @@ public class Paths {
 	public final static String GET_SQUADRA_BY_ID = "/getSquadraById/{idSquadra}";
 	public final static String GET_ALL_GARE = "/getAllGare";
 	public final static String GET_GARE_BY_SQUADRA = "/getGareBySquadra/{idSquadra}";
+	public final static String GET_GARE_CONCLUSE = "/getGareConcluse";
 
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
 	public final static String INSERT_GARA = "/inserisciGara";

@@ -55,6 +55,7 @@ public class GaraService {
         return garaRepository
                 .findAll()
                 .stream()
+                .filter(gara -> gara.getRisultato() == null)
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
@@ -64,6 +65,16 @@ public class GaraService {
         return garaRepository
                 .findByIdSquadra(idSquadra)
                 .stream()
+                .map(gara -> garaMapper.map(gara, GaraDTO.class))
+                .sorted(Comparator.comparing(GaraDTO::getData))
+                .toList();
+    }
+
+    public List<GaraDTO> getGareConcluse(){
+        return garaRepository
+                .findAll()
+                .stream()
+                .filter(gara -> gara.getRisultato() != null)
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
@@ -82,6 +93,7 @@ public class GaraService {
         entity.setOspitante(garaDaModificare.getOspitante());
         entity.setOspite(garaDaModificare.getOspite());
         entity.setIsTrasferta(garaDaModificare.getIsTrasferta());
+        entity.setRisultato(garaDaModificare.getRisultato());
 
         Gara garaAggiornata = garaRepository.save(entity);
         return garaMapper.map(garaAggiornata, GaraDTO.class);

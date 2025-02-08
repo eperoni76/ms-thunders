@@ -26,4 +26,5 @@ public class GaraDTO {
     private Integer secondoAllenatore;
     private Integer dirigente;
     private Integer addettoDefibrillatore;
+    private String risultato;
 }
