@@ -82,7 +82,7 @@ public class GaraService {
     }
 
     public List<GaraDTO> getGareConcluseBySquadra(Integer idSquadra){
-        return garaRepository
+       return garaRepository
                 .findByIdSquadra(idSquadra)
                 .stream()
                 .filter(gara -> gara.getRisultato() != null)
@@ -90,6 +90,12 @@ public class GaraService {
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
+
+    public List<GaraDTO> getGareConcluseByAnno(Integer anno) {
+       List<GaraDTO> gareConcluse = getGareConcluse();
+       return gareConcluse.stream().filter(gara -> gara.getData().getYear() == anno).toList();
+    }
+
 
     public GaraDTO modificaGara(GaraDTO garaDaModificare){
         Gara entity = garaRepository.findById(garaDaModificare.getId()).orElseThrow(() -> new EntityNotFoundException("Gara non presente"));
