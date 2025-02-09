@@ -22,6 +22,7 @@ public class GaraDTO {
     private LocalTime ora;
     private String campionato;
     private Boolean isTrasferta;
+    private Boolean isVittoria;
     private Integer allenatore;
     private Integer secondoAllenatore;
     private Integer dirigente;

@@ -28,5 +28,6 @@ public class Gara {
     private LocalTime ora;
     private String campionato;
     private Boolean isTrasferta;
+    private Boolean isVittoria;
     private String risultato;
 }

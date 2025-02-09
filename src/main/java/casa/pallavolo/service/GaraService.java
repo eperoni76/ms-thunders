@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,45 +52,47 @@ public class GaraService {
         return garaRepository.save(gara);
     }
 
-    public List<GaraDTO> getAllGare(){
+    public List<GaraDTO> getAllGare() {
         return garaRepository
                 .findAll()
                 .stream()
-                .filter(gara -> gara.getRisultato() == null)
+                .filter(gara -> gara.getRisultato() == null || gara.getRisultato().equalsIgnoreCase(""))
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
 
-    public List<GaraDTO> getGareBySquadra(Integer idSquadra){
+    public List<GaraDTO> getGareBySquadra(Integer idSquadra) {
         return garaRepository
                 .findByIdSquadra(idSquadra)
                 .stream()
-                .filter(gara -> gara.getRisultato() == null)
+                .filter(gara -> gara.getRisultato() == null || gara.getRisultato().equalsIgnoreCase(""))
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
 
-    public List<GaraDTO> getGareConcluse(){
+    public List<GaraDTO> getGareConcluse() {
         return garaRepository
                 .findAll()
                 .stream()
-                .filter(gara -> gara.getRisultato() != null)
+                .filter(gara -> Objects.nonNull(gara.getRisultato()) && !gara.getRisultato().equalsIgnoreCase(""))
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
 
-    public List<GaraDTO> getGareConcluseBySquadra(Integer idSquadra){
-       return garaRepository
+    public List<GaraDTO> getGareConcluseBySquadra(Integer idSquadra) {
+        return garaRepository
                 .findByIdSquadra(idSquadra)
                 .stream()
-                .filter(gara -> gara.getRisultato() != null)
+                .filter(gara -> Objects.nonNull(gara.getRisultato()) && !gara.getRisultato().equalsIgnoreCase(""))
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
                 .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
+
+
 
     public List<GaraDTO> getGareConcluseByAnno(Integer anno) {
        List<GaraDTO> gareConcluse = getGareConcluse();
@@ -111,6 +114,7 @@ public class GaraService {
         entity.setOspite(garaDaModificare.getOspite());
         entity.setIsTrasferta(garaDaModificare.getIsTrasferta());
         entity.setRisultato(garaDaModificare.getRisultato());
+        entity.setIsVittoria(garaDaModificare.getIsVittoria());
 
         Gara garaAggiornata = garaRepository.save(entity);
         return garaMapper.map(garaAggiornata, GaraDTO.class);
