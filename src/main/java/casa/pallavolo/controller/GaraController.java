@@ -53,6 +53,15 @@ public class GaraController {
         return ResponseEntity.ok(gare);
     }
 
+    @GetMapping(Paths.GET_GARE_CONCLUSE_BY_SQUADRA)
+    public ResponseEntity<List<GaraDTO>> getGareConcluseBySquadra(@PathVariable Integer idSquadra){
+        List<GaraDTO> gare = garaService.getGareConcluseBySquadra(idSquadra);
+        if(gare.isEmpty()){
+            return GenericUtils.noContentResult();
+        }
+        return ResponseEntity.ok(gare);
+    }
+
     @PostMapping(Paths.INSERT_GARA)
     public ResponseEntity<?> inserisciGara(@RequestBody GaraDTO garaDaInserire){
         try{
