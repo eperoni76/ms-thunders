@@ -19,8 +19,6 @@ public class Paths {
 	public final static String GET_ALL_GARE = "/getAllGare";
 	public final static String GET_GARE_BY_SQUADRA = "/getGareBySquadra/{idSquadra}";
 	public final static String GET_GARE_CONCLUSE = "/getGareConcluse";
-	public static final String GET_GARE_CONCLUSE_BY_SQUADRA = "/getGareConcluseBySquadra/{idSquadra}";
-	public static final String GET_GARE_CONCLUSE_BY_ANNO = "/getGareConcluseByAnno/{anno}";
 
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
 	public final static String INSERT_GARA = "/inserisciGara";
@@ -32,6 +30,8 @@ public class Paths {
 	public static final String UPDATE_GARA = "/updateGara";
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
+	public static final String CARICA_FILE_CALENDARIO = "/caricaCalendario";
+
 
 	//Path per immagini UISP creazione lista gara
 	public final static String UISP_IMAGE_1 = "src/main/resources/images/uisp1.png";

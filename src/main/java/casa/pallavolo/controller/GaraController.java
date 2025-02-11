@@ -11,12 +11,21 @@ import casa.pallavolo.utils.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,53 +36,40 @@ public class GaraController {
     private GaraService garaService;
 
     @GetMapping(Paths.GET_ALL_GARE)
-    public ResponseEntity<List<GaraDTO>> getAllGare(){
+    public ResponseEntity<List<GaraDTO>> getAllGare() {
         List<GaraDTO> gare = garaService.getAllGare();
-        if(gare.isEmpty()){
+        if (gare.isEmpty()) {
             return GenericUtils.noContentResult();
         }
         return ResponseEntity.ok(gare);
     }
 
     @GetMapping(Paths.GET_GARE_BY_SQUADRA)
-    public ResponseEntity<List<GaraDTO>> getGareBySquadra(@PathVariable Integer idSquadra){
+    public ResponseEntity<List<GaraDTO>> getGareBySquadra(@PathVariable Integer idSquadra) {
         List<GaraDTO> gare = garaService.getGareBySquadra(idSquadra);
-        if(gare.isEmpty()){
+        if (gare.isEmpty()) {
             return GenericUtils.noContentResult();
         }
         return ResponseEntity.ok(gare);
     }
 
     @GetMapping(Paths.GET_GARE_CONCLUSE)
-    public ResponseEntity<List<GaraDTO>> getGareConcluse(){
-        List<GaraDTO> gare = garaService.getGareConcluse();
-        if(gare.isEmpty()){
+    public ResponseEntity<List<GaraDTO>> getGareConcluse(
+            @RequestParam(required = false) Integer idSquadra,
+            @RequestParam(required = false) Integer anno) {
+
+        List<GaraDTO> gare = garaService.getGareConcluse(idSquadra, anno);
+
+        if (gare.isEmpty()) {
             return GenericUtils.noContentResult();
         }
         return ResponseEntity.ok(gare);
     }
 
-    @GetMapping(Paths.GET_GARE_CONCLUSE_BY_SQUADRA)
-    public ResponseEntity<List<GaraDTO>> getGareConcluseBySquadra(@PathVariable Integer idSquadra){
-        List<GaraDTO> gare = garaService.getGareConcluseBySquadra(idSquadra);
-        if(gare.isEmpty()){
-            return GenericUtils.noContentResult();
-        }
-        return ResponseEntity.ok(gare);
-    }
-
-    @GetMapping(Paths.GET_GARE_CONCLUSE_BY_ANNO)
-    public ResponseEntity<List<GaraDTO>> getGareConcluseByAnno(@PathVariable Integer anno){
-        List<GaraDTO> gare = garaService.getGareConcluseByAnno(anno);
-        if(gare.isEmpty()){
-            return GenericUtils.noContentResult();
-        }
-        return ResponseEntity.ok(gare);
-    }
 
     @PostMapping(Paths.INSERT_GARA)
-    public ResponseEntity<?> inserisciGara(@RequestBody GaraDTO garaDaInserire){
-        try{
+    public ResponseEntity<?> inserisciGara(@RequestBody GaraDTO garaDaInserire) {
+        try {
             Gara garaInserita = garaService.inserisciGara(garaDaInserire);
             return ResponseEntity.ok(garaInserita);
         } catch (IllegalArgumentException e) {
@@ -82,19 +78,19 @@ public class GaraController {
     }
 
     @PutMapping(Paths.UPDATE_GARA)
-    public ResponseEntity<GaraDTO> updateGara(@RequestBody GaraDTO garaDaModificare){
+    public ResponseEntity<GaraDTO> updateGara(@RequestBody GaraDTO garaDaModificare) {
         GaraDTO giocatoreAggiornato = garaService.modificaGara(garaDaModificare);
         return ResponseEntity.ok(giocatoreAggiornato);
     }
 
     @DeleteMapping(Paths.DELETE_GARA_BY_ID)
-    public ResponseEntity<Void> eliminaGaraById(@PathVariable Integer id){
+    public ResponseEntity<Void> eliminaGaraById(@PathVariable Integer id) {
         garaService.eliminaGaraById(id);
         return GenericUtils.noContentResult();
     }
 
     @PostMapping(Paths.GENERA_LISTA_GARA)
-    public ResponseEntity<ByteArrayResource> generaListaGara(@RequestBody GaraDTO datiGara){
+    public ResponseEntity<ByteArrayResource> generaListaGara(@RequestBody GaraDTO datiGara) {
         byte[] listaGara = null;
         try {
             listaGara = garaService.generaListaGara(datiGara);
@@ -110,4 +106,16 @@ public class GaraController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }
+
+    @PostMapping(Paths.CARICA_FILE_CALENDARIO)
+    public ResponseEntity<List<Gara>> caricaFileCalendario(@RequestParam("file") MultipartFile file) {
+        List<Gara> gare = new ArrayList<>();
+        try {
+            gare = garaService.caricaCalendarioFile(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return ResponseEntity.ok().body(gare);
+    }
+
 }

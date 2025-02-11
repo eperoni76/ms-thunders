@@ -2,6 +2,7 @@ package casa.pallavolo.service;
 
 import casa.pallavolo.dto.GaraDTO;
 import casa.pallavolo.dto.GiocatoreDTO;
+import casa.pallavolo.dto.SquadraDTO;
 import casa.pallavolo.model.AddettoDefibrillatore;
 import casa.pallavolo.model.Dirigente;
 import casa.pallavolo.model.Gara;
@@ -16,26 +17,36 @@ import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class GaraService {
     @Autowired
     private GaraRepository garaRepository;
     @Autowired
-    private SquadraRepository squadraRepository;
+    private SquadraService squadraService;
     @Autowired
     private GiocatoreService giocatoreService;
     @Autowired
@@ -44,11 +55,43 @@ public class GaraService {
     private DirigenteService dirigenteService;
     @Autowired
     private ModelMapper garaMapper;
+    @Autowired
+    private EntityManager entityManager;
+
+    private boolean calcolaTrasferta(GaraDTO gara){
+        return !gara.getOspitante().toLowerCase().contains(gara.getSquadra().getNomeSquadra().toLowerCase());
+    }
+
+    private Integer trovaIdSquadra(Gara gara) {
+        String ospitante = gara.getOspitante().toLowerCase();
+        String ospite = gara.getOspite().toLowerCase();
+        List<SquadraDTO> squadre = squadraService.getAllSquadre();
+
+        for (SquadraDTO squadra : squadre) {
+            String nomeSquadra = squadra.getNomeSquadra().toLowerCase();
+            if (ospitante.contains(nomeSquadra) || ospite.contains(nomeSquadra)) {
+                return garaMapper.map(squadra, Squadra.class).getId();
+            }
+        }
+        return null;
+    }
+
+    private LocalDate formattaData(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE d/M/yyyy", Locale.ITALIAN);
+        try {
+            int annoCorrente = LocalDate.now().getYear();
+            LocalDate date = LocalDate.parse(dateStr.toLowerCase()+"/"+annoCorrente, formatter);
+            return date.withYear(LocalDate.now().getYear());
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Formato data non valido: " + dateStr, e);
+        }
+    }
 
     public Gara inserisciGara(GaraDTO garaDaInserire){
         Gara gara = garaMapper.map(garaDaInserire, Gara.class);
-        Optional<Squadra> squadra = squadraRepository.findById(garaDaInserire.getSquadra().getId());
-        gara.setSquadra(squadra.orElse(null));
+        Squadra squadra = garaMapper.map(squadraService.getSquadraById(garaDaInserire.getSquadra().getId()), Squadra.class);
+        gara.setSquadra(squadra);
+        gara.setIsTrasferta(calcolaTrasferta(garaDaInserire));
         return garaRepository.save(gara);
     }
 
@@ -72,37 +115,37 @@ public class GaraService {
                 .toList();
     }
 
-    public List<GaraDTO> getGareConcluse() {
-        return garaRepository
-                .findAll()
+    public List<GaraDTO> getGareConcluse(Integer idSquadra, Integer anno) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Gara> query = cb.createQuery(Gara.class);
+        Root<Gara> root = query.from(Gara.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(cb.isNotNull(root.get("risultato")));
+        predicates.add(cb.notEqual(root.get("risultato"), ""));
+
+        if (Objects.nonNull(idSquadra)) {
+            predicates.add(cb.equal(root.get("squadra").get("id"), idSquadra));
+        }
+
+        if (Objects.nonNull(anno)) {
+            predicates.add(cb.equal(cb.function("DATE_PART", Integer.class, cb.literal("year"), root.get("data")), anno));
+        }
+
+        query.where(predicates.toArray(new Predicate[0]));
+        query.orderBy(cb.desc(root.get("data")));
+
+        return entityManager.createQuery(query)
+                .getResultList()
                 .stream()
-                .filter(gara -> Objects.nonNull(gara.getRisultato()) && !gara.getRisultato().equalsIgnoreCase(""))
                 .map(gara -> garaMapper.map(gara, GaraDTO.class))
-                .sorted(Comparator.comparing(GaraDTO::getData))
                 .toList();
     }
-
-    public List<GaraDTO> getGareConcluseBySquadra(Integer idSquadra) {
-        return garaRepository
-                .findByIdSquadra(idSquadra)
-                .stream()
-                .filter(gara -> Objects.nonNull(gara.getRisultato()) && !gara.getRisultato().equalsIgnoreCase(""))
-                .map(gara -> garaMapper.map(gara, GaraDTO.class))
-                .sorted(Comparator.comparing(GaraDTO::getData))
-                .toList();
-    }
-
-
-
-    public List<GaraDTO> getGareConcluseByAnno(Integer anno) {
-       List<GaraDTO> gareConcluse = getGareConcluse();
-       return gareConcluse.stream().filter(gara -> gara.getData().getYear() == anno).toList();
-    }
-
 
     public GaraDTO modificaGara(GaraDTO garaDaModificare){
         Gara entity = garaRepository.findById(garaDaModificare.getId()).orElseThrow(() -> new EntityNotFoundException("Gara non presente"));
-        Squadra squadra = squadraRepository.findById(garaDaModificare.getSquadra().getId()).orElse(null);
+        Squadra squadra = garaMapper.map(squadraService.getSquadraById(garaDaModificare.getSquadra().getId()), Squadra.class);
         entity.setId(garaDaModificare.getId());
         entity.setSquadra(squadra);
         entity.setNumeroGara(garaDaModificare.getNumeroGara());
@@ -122,6 +165,41 @@ public class GaraService {
 
     public void eliminaGaraById(Integer id){
         garaRepository.deleteById(id);
+    }
+
+    public List<Gara> caricaCalendarioFile(MultipartFile file) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))){
+            String fileName = file.getOriginalFilename();
+            System.out.println("File ricevuto: " + fileName);
+            List<Gara> gareDaInserire = new ArrayList<>();
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if(!line.equalsIgnoreCase("")){
+
+                    String[] parts = line.split("///");
+                    Gara gara = new Gara();
+                    gara.setNumeroGara(Integer.parseInt(parts[0]));
+                    gara.setData(formattaData(parts[1]));
+                    gara.setOra(LocalTime.parse(parts[2]));
+                    gara.setCampionato(parts[3]);
+                    gara.setIndirizzo(parts[4]);
+                    gara.setOspitante(parts[5]);
+                    gara.setOspite(parts[6]);
+                    Integer idSquadra = trovaIdSquadra(gara);
+                    Squadra squadra = squadraService.getSquadraById(idSquadra);
+                    if(Objects.nonNull(squadra)){
+                        gara.setSquadra(squadra);
+                        gara.setIsTrasferta(calcolaTrasferta(garaMapper.map(gara, GaraDTO.class)));
+                    }
+                    gareDaInserire.add(gara);
+                }
+            }
+            for (Gara gara : gareDaInserire) {
+                System.out.println(gara);
+            }
+            return garaRepository.saveAll(gareDaInserire);
+        }
     }
 
     public byte[] generaListaGara(GaraDTO datiGara) throws IOException {

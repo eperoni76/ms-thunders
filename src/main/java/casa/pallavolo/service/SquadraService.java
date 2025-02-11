@@ -1,6 +1,7 @@
 package casa.pallavolo.service;
 
 import casa.pallavolo.dto.SquadraDTO;
+import casa.pallavolo.model.Squadra;
 import casa.pallavolo.repository.SquadraRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class SquadraService {
                 .toList();
     }
 
-    public SquadraDTO getSquadraById(Integer id){
-        return squadraRepository.findById(id).map(squadra -> squadraMapper.map(squadra, SquadraDTO.class)).orElse(null);
+    public Squadra getSquadraById(Integer id){
+        return squadraRepository.findById(id).orElse(null);
     }
 }

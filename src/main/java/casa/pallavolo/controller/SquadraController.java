@@ -4,6 +4,7 @@ import casa.pallavolo.dto.SquadraDTO;
 import casa.pallavolo.service.SquadraService;
 import casa.pallavolo.utils.GenericUtils;
 import casa.pallavolo.utils.Paths;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,8 @@ public class SquadraController {
 
     @Autowired
     private SquadraService squadraService;
+    @Autowired
+    private ModelMapper squadraMapper;
 
     @GetMapping(Paths.GET_ALL_SQUADRE)
     public ResponseEntity<List<SquadraDTO>> getAllSquadre(){
@@ -32,7 +35,7 @@ public class SquadraController {
 
     @GetMapping(Paths.GET_SQUADRA_BY_ID)
     public ResponseEntity<SquadraDTO> getSquadraById(@PathVariable Integer idSquadra){
-        SquadraDTO squadra = squadraService.getSquadraById(idSquadra);
+        SquadraDTO squadra = squadraMapper.map(squadraService.getSquadraById(idSquadra), SquadraDTO.class);
         return squadra == null ? GenericUtils.noContentResult() : ResponseEntity.ok(squadra);
     }
 }
