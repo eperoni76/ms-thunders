@@ -27,4 +27,10 @@ public class SquadraService {
     public Squadra getSquadraById(Integer id){
         return squadraRepository.findById(id).orElse(null);
     }
+
+    public Squadra insertSquadra(SquadraDTO squadraDTO){
+        Squadra squadra = squadraMapper.map(squadraDTO, Squadra.class);
+        squadra.setNomeSquadra(squadraDTO.getNomeSquadra().toLowerCase());
+        return squadraRepository.save(squadra);
+    }
 }

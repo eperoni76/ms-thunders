@@ -22,6 +22,7 @@ public class Paths {
 
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
 	public final static String INSERT_GARA = "/inserisciGara";
+	public static final String INSERT_SQUADRA = "/inserisciSquadra";
 
 	public final static String DELETE_GIOCATORE_BY_ID = "/deleteGiocatoreById/{id}";
 	public static final String DELETE_GARA_BY_ID = "/deleteGaraById/{id}";
