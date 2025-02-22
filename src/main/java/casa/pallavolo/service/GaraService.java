@@ -374,7 +374,7 @@ public class GaraService {
         /**
          * TABELLA GIOCATORI
          */
-        List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriBySquadra(datiGara.getSquadra().getId());
+        List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriBySquadra(garaMapper.map(datiGara.getSquadra(), Squadra.class));
         PdfPTable tableGiocatori = new PdfPTable(5);
         tableGiocatori.setWidthPercentage(100);
         com.lowagie.text.Font titleFont = new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 11, com.lowagie.text.Font.BOLD, darkGreen);

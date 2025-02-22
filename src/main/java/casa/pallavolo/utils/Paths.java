@@ -10,7 +10,7 @@ public class Paths {
 	public final static String GET_GIOCATORI = "/getGiocatori";
 	public final static String GET_GIOCATORE_BY_ID = "/getGiocatoreById/{id}";
 	public final static String GET_GIOCATORI_BY_RUOLO = "/getGiocatoriByRuolo/{ruolo}";
-	public final static String GET_GIOCATORI_BY_SQUADRA = "/getGiocatoriBySquadra/{squadra}";
+	public final static String GET_GIOCATORI_BY_SQUADRA = "/getGiocatoriBySquadra/{idSquadra}";
 	public final static String GET_ALL_DIRIGENTI = "/getAllDirigenti";
 	public final static String GET_ALL_ALLENATORI = "/getAllAllenatori";
 	public final static String GET_ALL_ADDETTI_DEFIBRILLATORE = "/getAllAddettiDefibrillatore";
@@ -29,6 +29,7 @@ public class Paths {
 
 	public final static String UPDATE_GIOCATORE = "/updateGiocatore";
 	public static final String UPDATE_GARA = "/updateGara";
+	public static final String CAMBIA_CAPITANO = "/cambiaCapitano";
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
 	public static final String CARICA_FILE_CALENDARIO = "/caricaCalendario";

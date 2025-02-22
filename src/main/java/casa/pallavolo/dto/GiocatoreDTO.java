@@ -1,5 +1,6 @@
 package casa.pallavolo.dto;
 
+import casa.pallavolo.model.Squadra;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class GiocatoreDTO {
 	private String cognome;
 	private Integer numeroMaglia;
 	private String ruolo;
-	private Integer squadra;
+	private Squadra squadra;
 	private LocalDate dataNascita;
 	private String tesseraUisp;
 	private Boolean isCapitano;

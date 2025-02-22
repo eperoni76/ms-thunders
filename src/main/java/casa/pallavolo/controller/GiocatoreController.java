@@ -2,6 +2,8 @@ package casa.pallavolo.controller;
 
 import java.util.List;
 
+import casa.pallavolo.model.Squadra;
+import casa.pallavolo.service.SquadraService;
 import casa.pallavolo.utils.GenericUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class GiocatoreController {
 	
 	@Autowired
 	private GiocatoreService giocatoreService;
+	@Autowired
+	private SquadraService squadraService;
 	
 	@GetMapping(Paths.GET_GIOCATORI)
 	public ResponseEntity<List<GiocatoreDTO>> getAllGiocatori(){
@@ -47,7 +51,8 @@ public class GiocatoreController {
 	}
 
 	@GetMapping(Paths.GET_GIOCATORI_BY_SQUADRA)
-	public ResponseEntity<List<GiocatoreDTO>> getGiocatoriBySquadra(@PathVariable Integer squadra){
+	public ResponseEntity<List<GiocatoreDTO>> getGiocatoriBySquadra(@PathVariable Integer idSquadra){
+		Squadra squadra = squadraService.getSquadraById(idSquadra);
 		List<GiocatoreDTO> giocatori = giocatoreService.getGiocatoriBySquadra(squadra);
 		if(giocatori.isEmpty()) {
 			return GenericUtils.noContentResult();
@@ -75,6 +80,12 @@ public class GiocatoreController {
 	public ResponseEntity<GiocatoreDTO> updateGiocatore(@RequestBody GiocatoreDTO giocatoreDaAggiornare){
 		GiocatoreDTO giocatoreAggiornato = giocatoreService.aggiornaGiocatore(giocatoreDaAggiornare);
 		return ResponseEntity.ok(giocatoreAggiornato);
+	}
+
+	@PutMapping(Paths.CAMBIA_CAPITANO)
+	public ResponseEntity<GiocatoreDTO> cambiaCapitano(@RequestBody GiocatoreDTO capitanoDaNominare){
+		GiocatoreDTO nuovoCapitano = giocatoreService.cambiaCapitano(capitanoDaNominare);
+		return ResponseEntity.ok(nuovoCapitano);
 	}
 	
 	
