@@ -202,6 +202,14 @@ public class GaraService {
         }
     }
 
+    public Integer countVittorieBySquadra(Squadra squadra){
+        return garaRepository.countVittorieBySquadra(squadra);
+    }
+
+    public Integer countSconfitteBySquadra(Squadra squadra){
+        return garaRepository.countSconfitteBySquadra(squadra);
+    }
+
     public byte[] generaListaGara(GaraDTO datiGara) throws IOException {
         /**
          * APERTURA DOCUMENTO

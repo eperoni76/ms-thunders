@@ -5,7 +5,9 @@ import casa.pallavolo.dto.GiocatoreDTO;
 import casa.pallavolo.dto.SquadraDTO;
 import casa.pallavolo.model.Gara;
 import casa.pallavolo.model.Giocatore;
+import casa.pallavolo.model.Squadra;
 import casa.pallavolo.service.GaraService;
+import casa.pallavolo.service.SquadraService;
 import casa.pallavolo.utils.GenericUtils;
 import casa.pallavolo.utils.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class GaraController {
 
     @Autowired
     private GaraService garaService;
+    @Autowired
+    private SquadraService squadraService;
 
     @GetMapping(Paths.GET_ALL_GARE)
     public ResponseEntity<List<GaraDTO>> getAllGare() {
@@ -116,6 +120,20 @@ public class GaraController {
             throw new RuntimeException(e.getMessage());
         }
         return ResponseEntity.ok().body(gare);
+    }
+
+    @GetMapping(Paths.COUNT_VITTORIE_BY_SQUADRA)
+    public ResponseEntity<Integer> countVittorieBySquadra(@PathVariable Integer idSquadra) {
+        Squadra squadra = squadraService.getSquadraById(idSquadra);
+        Integer countVittorie = garaService.countVittorieBySquadra(squadra);
+        return ResponseEntity.ok(countVittorie);
+    }
+
+    @GetMapping(Paths.COUNT_SCONFITTE_BY_SQUADRA)
+    public ResponseEntity<Integer> countSconfitteBySquadra(@PathVariable Integer idSquadra) {
+        Squadra squadra = squadraService.getSquadraById(idSquadra);
+        Integer countSconfitte = garaService.countSconfitteBySquadra(squadra);
+        return ResponseEntity.ok(countSconfitte);
     }
 
 }
