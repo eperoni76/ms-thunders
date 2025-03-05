@@ -210,6 +210,63 @@ public class GaraService {
         return garaRepository.countSconfitteBySquadra(squadra);
     }
 
+    public byte[] condividiCalendario(List<GaraDTO> calendario) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+
+        try {
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+
+            Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
+            Paragraph titolo = new Paragraph("Calendario Gare", titleFont);
+            titolo.setAlignment(Element.ALIGN_CENTER);
+            titolo.setSpacingAfter(20);
+            document.add(titolo);
+
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setSpacingBefore(10f);
+            table.setSpacingAfter(10f);
+
+            addTableHeader(table, "Data");
+            addTableHeader(table, "Ora");
+            addTableHeader(table, "Squadra Casa");
+            addTableHeader(table, "Squadra Ospite");
+            addTableHeader(table, "Indirizzo");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            for (GaraDTO gara : calendario) {
+                String dataFormattata = gara.getData().format(formatter);
+
+                table.addCell(dataFormattata);
+                table.addCell(gara.getOra().toString());
+                table.addCell(gara.getOspitante());
+                table.addCell(gara.getOspite());
+                table.addCell(gara.getIndirizzo());
+            }
+
+            document.add(table);
+        } catch (DocumentException e) {
+            throw new IOException("Errore nella generazione del PDF: " + e.getMessage());
+        } finally {
+            document.close();
+        }
+
+        return outputStream.toByteArray();
+    }
+
+
+
+    private void addTableHeader(PdfPTable table, String header) {
+        Font headerFont = new Font(Font.HELVETICA, 12, Font.BOLD);
+        PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
+        headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        headerCell.setPadding(5);
+        table.addCell(headerCell);
+    }
+
     public byte[] generaListaGara(GaraDTO datiGara) throws IOException {
         /**
          * APERTURA DOCUMENTO

@@ -1,10 +1,7 @@
 package casa.pallavolo.controller;
 
 import casa.pallavolo.dto.GaraDTO;
-import casa.pallavolo.dto.GiocatoreDTO;
-import casa.pallavolo.dto.SquadraDTO;
 import casa.pallavolo.model.Gara;
-import casa.pallavolo.model.Giocatore;
 import casa.pallavolo.model.Squadra;
 import casa.pallavolo.service.GaraService;
 import casa.pallavolo.service.SquadraService;
@@ -13,20 +10,13 @@ import casa.pallavolo.utils.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +97,24 @@ public class GaraController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(listaGara.length)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
+    }
+
+    @PostMapping(Paths.CONDIVIDI_CALENDARIO)
+    public ResponseEntity<ByteArrayResource> condividiCalendario(@RequestBody List<GaraDTO> calendario) {
+        byte[] calendarioPdf = null;
+        try {
+            calendarioPdf = garaService.condividiCalendario(calendario);
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        ByteArrayResource resource = new ByteArrayResource(calendarioPdf);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=gara_documento.pdf");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(calendarioPdf.length)
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
     }

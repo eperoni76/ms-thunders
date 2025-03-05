@@ -33,6 +33,7 @@ public class Paths {
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
 	public static final String CARICA_FILE_CALENDARIO = "/caricaCalendario";
+	public static final String CONDIVIDI_CALENDARIO = "/condividiCalendario";
 
 	public static final String COUNT_VITTORIE_BY_SQUADRA = "/countVittorieBySquadra/{idSquadra}";
 	public static final String COUNT_SCONFITTE_BY_SQUADRA = "/countSconfitteBySquadra/{idSquadra}";
