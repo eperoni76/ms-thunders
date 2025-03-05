@@ -15,6 +15,7 @@ public class Squadra {
     private Integer id;
     private String nomeSquadra;
     private String campionato;
+    private String nomeUfficiale;
 
     public Squadra(Integer id) {
         this.id = id;

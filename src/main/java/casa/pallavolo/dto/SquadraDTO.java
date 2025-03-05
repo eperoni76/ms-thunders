@@ -10,6 +10,7 @@ public class SquadraDTO {
     private Integer id;
     private String nomeSquadra;
     private String campionato;
+    private String nomeUfficiale;
 
     public SquadraDTO(Integer id) {
         this.id = id;

@@ -13,6 +13,7 @@ import casa.pallavolo.utils.Constants;
 import casa.pallavolo.utils.Paths;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
+import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
@@ -284,9 +285,9 @@ public class GaraService {
         /**
          * CARICAMENTO IMMAGINI
          */
-        com.lowagie.text.Image image1 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_1);
-        com.lowagie.text.Image image2 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_2);
-        com.lowagie.text.Image image3 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_3);
+        Image image1 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_1);
+        Image image2 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_2);
+        Image image3 = com.lowagie.text.Image.getInstance(Paths.UISP_IMAGE_3);
 
         image1.scaleToFit(100, 100);
         image2.scaleToFit(100, 100);
@@ -329,19 +330,20 @@ public class GaraService {
 
         PdfPTable title2 = new PdfPTable(1);
         title2.setWidthPercentage(100);
-        PdfPCell cell2 = new PdfPCell(new Phrase(Constants.PRIMO_SOTTOTITOLO, new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 11, com.lowagie.text.Font.BOLD, darkGreen)));
+        PdfPCell cell2 = new PdfPCell(new Phrase(Constants.PRIMO_SOTTOTITOLO, new com.lowagie.text.Font(Font.HELVETICA, 11, Font.BOLD, darkGreen)));
         cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell2.setBorder(com.lowagie.text.Rectangle.BOX);
+        cell2.setBorder(Rectangle.BOX);
         cell2.setPadding(5f);
         title2.addCell(cell2);
         title2.setSpacingAfter(10f);
         document.add(title2);
 
 
+        Squadra squadraSelezionata = squadraService.getSquadraById(datiGara.getSquadra().getId());
         PdfPTable title3 = new PdfPTable(1);
         title3.setWidthPercentage(100);
         Chunk chunkSquadra1 = new Chunk(Constants.SECONDO_SOTTOTITOLO, new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 11, com.lowagie.text.Font.BOLD, darkGreen));
-        Chunk chunkSquadra2 = new Chunk("          " + Constants.NOME_SQUADRA, new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 11, com.lowagie.text.Font.BOLD, Color.BLACK));
+        Chunk chunkSquadra2 = new Chunk("          " + squadraSelezionata.getNomeUfficiale(), new com.lowagie.text.Font(com.lowagie.text.Font.HELVETICA, 11, com.lowagie.text.Font.BOLD, Color.BLACK));
         Phrase squadra = new Phrase();
         squadra.add(chunkSquadra1);
         squadra.add(chunkSquadra2);
