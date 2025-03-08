@@ -2,6 +2,7 @@ package casa.pallavolo.service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import casa.pallavolo.model.Squadra;
 import jakarta.persistence.EntityNotFoundException;
@@ -85,15 +86,14 @@ public class GiocatoreService {
 
 	public GiocatoreDTO cambiaCapitano(GiocatoreDTO capitanoDaNominare){
 		Giocatore capitanoAttuale = giocatoreRepository.findByIsCapitanoAndSquadra(true, capitanoDaNominare.getSquadra());
-		capitanoAttuale.setIsCapitano(false);
+		if(Objects.nonNull(capitanoAttuale)){
+			capitanoAttuale.setIsCapitano(false);
+			giocatoreRepository.save(capitanoAttuale);
+		}
 		Giocatore nuovoCapitano = giocatoreRepository.findById(capitanoDaNominare.getId()).orElseThrow(() -> new EntityNotFoundException("Giocatore non presente"));
 		nuovoCapitano.setIsCapitano(true);
-		giocatoreRepository.save(capitanoAttuale);
 		Giocatore capitanoAggiornato = giocatoreRepository.save(nuovoCapitano);
 		return giocatoreMapper.map(capitanoAggiornato, GiocatoreDTO.class);
 	}
 
-	
-	
-	
 }
