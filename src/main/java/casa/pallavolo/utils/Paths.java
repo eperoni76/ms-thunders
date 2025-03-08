@@ -23,12 +23,15 @@ public class Paths {
 	public final static String INSERT_GIOCATORE = "/inserisciGiocatore";
 	public final static String INSERT_GARA = "/inserisciGara";
 	public static final String INSERT_SQUADRA = "/inserisciSquadra";
+	public static final String INSERT_DIRIGENTE = "/inserisciDirigente";
 
 	public final static String DELETE_GIOCATORE_BY_ID = "/deleteGiocatoreById/{id}";
 	public static final String DELETE_GARA_BY_ID = "/deleteGaraById/{id}";
+	public static final String DELETE_DIRIGENTE_BY_ID = "/deleteDirigenteById/{id}";
 
 	public final static String UPDATE_GIOCATORE = "/updateGiocatore";
 	public static final String UPDATE_GARA = "/updateGara";
+	public static final String UPDATE_DIRIGENTE = "/updateDirigente";
 	public static final String CAMBIA_CAPITANO = "/cambiaCapitano";
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
@@ -38,7 +41,9 @@ public class Paths {
 	public static final String COUNT_VITTORIE_BY_SQUADRA = "/countVittorieBySquadra/{idSquadra}";
 	public static final String COUNT_SCONFITTE_BY_SQUADRA = "/countSconfitteBySquadra/{idSquadra}";
 
-	//Path per immagini UISP creazione lista gara
+	/**
+	 * Path per immagini UISP creazione lista gara
+	 */
 	public final static String UISP_IMAGE_1 = "src/main/resources/images/uisp1.png";
 	public final static String UISP_IMAGE_2 = "src/main/resources/images/uisp2.png";
 	public final static String UISP_IMAGE_3 = "src/main/resources/images/uisp3.jpg";

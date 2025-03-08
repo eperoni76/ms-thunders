@@ -73,8 +73,8 @@ public class GaraController {
 
     @PutMapping(Paths.UPDATE_GARA)
     public ResponseEntity<GaraDTO> updateGara(@RequestBody GaraDTO garaDaModificare) {
-        GaraDTO giocatoreAggiornato = garaService.modificaGara(garaDaModificare);
-        return ResponseEntity.ok(giocatoreAggiornato);
+        GaraDTO garaAggiornata = garaService.modificaGara(garaDaModificare);
+        return ResponseEntity.ok(garaAggiornata);
     }
 
     @DeleteMapping(Paths.DELETE_GARA_BY_ID)

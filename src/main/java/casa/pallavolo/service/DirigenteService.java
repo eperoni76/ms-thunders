@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DirigenteService {
@@ -34,5 +35,27 @@ public class DirigenteService {
 
     public Dirigente getDirigenteById(Integer id){
         return dirigenteRepository.findById(id).orElse(null);
+    }
+
+    public Dirigente inserisciDirigente(DirigenteDTO dirigenteDaInserire){
+        Dirigente dirigente = dirigenteMapper.map(dirigenteDaInserire, Dirigente.class);
+        return dirigenteRepository.save(dirigente);
+    }
+
+    public DirigenteDTO modificaDirigente(DirigenteDTO dirigente) {
+        Dirigente dirigenteAggiornato = dirigenteRepository.findById(dirigente.getId()).orElse(null);
+        if (Objects.nonNull(dirigenteAggiornato)) {
+            dirigenteAggiornato.setNome(dirigente.getNome());
+            dirigenteAggiornato.setCognome(dirigente.getCognome());
+            dirigenteAggiornato.setTesseraUisp(dirigente.getTesseraUisp());
+            dirigenteAggiornato.setAllenatore(dirigente.getAllenatore());
+            dirigenteRepository.save(dirigenteAggiornato);
+            return dirigenteMapper.map(dirigenteAggiornato, DirigenteDTO.class);
+        }
+        return null;
+    }
+
+    public void deleteDirigente(Integer id) {
+        dirigenteRepository.deleteById(id);
     }
 }
