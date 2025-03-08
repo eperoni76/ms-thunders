@@ -33,6 +33,7 @@ public class Paths {
 	public static final String UPDATE_GARA = "/updateGara";
 	public static final String UPDATE_DIRIGENTE = "/updateDirigente";
 	public static final String CAMBIA_CAPITANO = "/cambiaCapitano";
+	public static final String ANNULLA_RISULTATO = "/annullaRisultato";
 
 	public final static String GENERA_LISTA_GARA = "/listaGara";
 	public static final String CARICA_FILE_CALENDARIO = "/caricaCalendario";

@@ -144,4 +144,10 @@ public class GaraController {
         return ResponseEntity.ok(countSconfitte);
     }
 
+    @PutMapping(Paths.ANNULLA_RISULTATO)
+    public ResponseEntity<Void> annullaRisultato(@RequestBody GaraDTO garaDaModificare) {
+        garaService.annullaRisultato(garaDaModificare);
+        return ResponseEntity.ok().build();
+    }
+
 }

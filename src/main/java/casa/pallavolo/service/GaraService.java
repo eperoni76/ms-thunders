@@ -203,6 +203,15 @@ public class GaraService {
         }
     }
 
+    public void annullaRisultato(GaraDTO gara){
+        Gara garaDaAnnullare = garaRepository.findById(gara.getId()).orElse(null);
+        if(Objects.nonNull(garaDaAnnullare)){
+            garaDaAnnullare.setRisultato(null);
+            garaDaAnnullare.setIsVittoria(null);
+            garaRepository.save(garaDaAnnullare);
+        }
+    }
+
     public Integer countVittorieBySquadra(Squadra squadra){
         return garaRepository.countVittorieBySquadra(squadra);
     }
