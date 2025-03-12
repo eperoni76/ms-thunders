@@ -7,7 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,15 +30,15 @@ public class AddettoDefibrillatoreService {
         return addettoDefibrillatoreRepository.findAll()
                 .stream()
                 .map(addetto -> addettoMapper.map(addetto, AddettoDefibrillatoreDTO.class))
-                .sorted((ad1, ad2) -> ad1.getCognome().compareTo(ad2.getCognome()))
+                .sorted(Comparator.comparing(AddettoDefibrillatoreDTO::getCognome))
                 .toList();
     }
 
     public AddettoDefibrillatoreDTO saveAddetto(AddettoDefibrillatoreDTO addettoDTO) throws Exception {
-        if (addettoDTO.getNome() == null || addettoDTO.getNome().isEmpty()) {
+        if (Objects.isNull(addettoDTO.getNome()) || addettoDTO.getNome().isEmpty()) {
             throw new Exception("Il nome dell'addetto è obbligatorio.");
         }
-        if (addettoDTO.getCognome() == null || addettoDTO.getCognome().isEmpty()) {
+        if (Objects.isNull(addettoDTO.getCognome()) || addettoDTO.getCognome().isEmpty()) {
             throw new Exception("Il cognome dell'addetto è obbligatorio.");
         }
 
@@ -46,7 +48,7 @@ public class AddettoDefibrillatoreService {
     }
 
     public AddettoDefibrillatoreDTO updateAddetto(AddettoDefibrillatoreDTO addettoDTO) throws Exception {
-        if (addettoDTO.getId() == null) {
+        if (Objects.isNull(addettoDTO.getId())) {
             throw new Exception("L'ID dell'addetto è obbligatorio per l'aggiornamento.");
         }
 
