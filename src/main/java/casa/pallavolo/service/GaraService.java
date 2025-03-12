@@ -277,7 +277,7 @@ public class GaraService {
         table.addCell(headerCell);
     }
 
-    public byte[] generaListaGara(GaraDTO datiGara) throws IOException {
+    public byte[] generaListaGara(GaraDTO datiGara) throws Exception {
         /**
          * APERTURA DOCUMENTO
          */

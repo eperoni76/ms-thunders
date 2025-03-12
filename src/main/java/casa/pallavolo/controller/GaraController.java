@@ -90,6 +90,8 @@ public class GaraController {
             listaGara = garaService.generaListaGara(datiGara);
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
         ByteArrayResource resource = new ByteArrayResource(listaGara);
         HttpHeaders headers = new HttpHeaders();

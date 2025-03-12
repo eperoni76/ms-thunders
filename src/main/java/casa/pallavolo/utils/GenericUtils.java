@@ -1,10 +1,11 @@
 package casa.pallavolo.utils;
 
+import lombok.extern.apachecommons.CommonsLog;
 import org.springframework.http.ResponseEntity;
-
+@CommonsLog
 public class GenericUtils {
     public static <T> ResponseEntity<T> noContentResult() {
-        System.out.println("Nessun risultato trovato");
+        log.info("Nessun risultato trovato");
         return ResponseEntity.noContent().build();
     }
 }

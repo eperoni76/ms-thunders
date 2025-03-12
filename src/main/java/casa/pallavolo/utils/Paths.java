@@ -25,14 +25,17 @@ public class Paths {
 	public final static String INSERT_GARA = "/inserisciGara";
 	public static final String INSERT_SQUADRA = "/inserisciSquadra";
 	public static final String INSERT_DIRIGENTE = "/inserisciDirigente";
+	public static final String INSERT_ADDETTO_DEFIBRILLATORE = "/insertAddettoDefibrillatore";
 
 	public final static String DELETE_GIOCATORE_BY_ID = "/deleteGiocatoreById/{id}";
 	public static final String DELETE_GARA_BY_ID = "/deleteGaraById/{id}";
 	public static final String DELETE_DIRIGENTE_BY_ID = "/deleteDirigenteById/{id}";
+	public static final String DELETE_ADDETTO_DEFIBRILLATORE = "/deleteAddettoDefibrillatore/{id}";
 
 	public final static String UPDATE_GIOCATORE = "/updateGiocatore";
 	public static final String UPDATE_GARA = "/updateGara";
 	public static final String UPDATE_DIRIGENTE = "/updateDirigente";
+	public static final String UPDATE_ADDETTO_DEFIBRILLATORE = "/updateAddettoDefibrillatore";
 	public static final String CAMBIA_CAPITANO = "/cambiaCapitano";
 	public static final String ANNULLA_RISULTATO = "/annullaRisultato";
 
