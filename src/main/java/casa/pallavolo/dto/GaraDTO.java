@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +29,5 @@ public class GaraDTO {
     private Integer dirigente;
     private Integer addettoDefibrillatore;
     private String risultato;
+    private List<GiocatoreDTO> giocatoriInLista;
 }
