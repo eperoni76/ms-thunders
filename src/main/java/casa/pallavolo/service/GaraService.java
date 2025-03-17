@@ -24,6 +24,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.extern.apachecommons.CommonsLog;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ import java.util.*;
 import java.util.List;
 
 @Service
+@CommonsLog
 public class GaraService {
     @Autowired
     private GaraRepository garaRepository;
@@ -197,10 +199,19 @@ public class GaraService {
                 }
             }
             for (Gara gara : gareDaInserire) {
-                System.out.println(gara);
+                log.info(gara);
             }
             return garaRepository.saveAll(gareDaInserire);
         }
+    }
+
+    public List<Integer> getAnniRaggruppati(){
+        List<GaraDTO> gareConcluse = getGareConcluse(null, null);
+        return gareConcluse.stream()
+                .map(gara -> gara.getData().getYear())
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .toList();
     }
 
     public void annullaRisultato(GaraDTO gara){

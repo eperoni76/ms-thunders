@@ -152,4 +152,10 @@ public class GaraController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping(Paths.GET_ANNI_RAGGRUPPATI)
+    public ResponseEntity<List<Integer>> getAnniRaggruppati() {
+        List<Integer> anni = garaService.getAnniRaggruppati();
+        return ResponseEntity.ok(anni);
+    }
+
 }
